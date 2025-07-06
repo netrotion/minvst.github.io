@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | MINVST</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://www.google.com/recaptcha/api.js"></script>  -->
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="static/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="/static/assets/logo.png" type="image/png">
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-left">
+            <a class="header-logo" href="#">
+                <span class="header-logo-icon">
+                    <img src="https://i.pinimg.com/564x/fe/84/92/fe8492fd6bcd3b299af3ed6beacfa61a.jpg" alt="Logo" />
+                </span>
+                <span class="header-title">MINVST</span>
+                <label class="toggle-switch" title="Toggle light/dark mode">
+                <button class="theme-toggle-btn" id="themeToggleBtn" aria-pressed="false" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="theme-icon" id="themeIcon" aria-hidden="true"></span>
+                    <span id="themeText">Dark</span>
+                </button>
+            </label>
+            </a>
+            <nav class="header-nav" id="headerNav">
+                <a href="#home" id="navHome">Info</a>
+                <a href="#pricing" id="navPricing">Pricing</a>
+                <a href="#recharge" id="navRecharge">Nạp tiền</a>
+                <a href="#shop" id="navShop">Tạp hoá</a>
+                <a href="#apitoken" id="navApitoken">API Token</a>
+                <a href="#help" id="navHelp">Hướng dẫn</a>
+                <a href="#download" id="navDownload">Tải xuống</a>
+                <a href="#convertcoin" id="navConvert">Quy đổi xu</a>
+                <a href="#setting" id="navSetting">Setting</a>
+            </nav>
+        </div>
+        <div class="header-actions" id="headerActions" style="margin-left:0;display:flex;align-items:center;">
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Mở menu">
+                <span>☰</span>
+            </button>
+            
+            <div id="headerBalance" class="header-balance" style="display:flex;align-items:center;gap:16px;margin-right:auto;">
+                <span id="headerCoin" style="display:flex;align-items:center;gap:4px;font-weight:600;">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="#fbbf24" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#f59e42" font-weight="bold">C</text>
+                    </svg>
+                    <span id="headerCoinVal">0</span>
+                </span>
+                
+                <span id="headerScoin" style="display:flex;align-items:center;gap:4px;font-weight:600;">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="#38bdf8" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#0ea5e9" font-weight="bold">S</text>
+                    </svg>
+                    <span id="headerScoinVal">0</span>
+                </span>
+            </div>
+            <div class="header-notify" id="headerNotifyBtn" style="margin-right:18px;cursor:pointer;position:relative;">
+                <i class="fa fa-bell"></i>
+                <span id="notifyDot" style="display:none;position:absolute;bottom:2px;right:-2px;width:9px;height:9px;background:#ef4444;border-radius:50%;"></span>
+            </div>
+            <button id="logoutBtn" style="margin-right:10px;padding:8px 22px;border-radius:6px;background:#ef4444;color:#fff;font-weight:600;border:none;cursor:pointer;">
+                Đăng xuất
+            </button>
+        </div>
+        
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Menu di động">
+        <button class="close-sidebar" id="closeSidebar" aria-label="Đóng menu">&times;</button>
+        <div class="sidebar-logo">
+            <img src="https://i.pinimg.com/564x/fe/84/92/fe8492fd6bcd3b299af3ed6beacfa61a.jpg" alt="Logo" />
+            <span class="sidebar-title">MINVST</span>
+        </div>
+        <div id="sidebarUserBoxWrap"></div>
+        <div class="sidebar-links" id="sidebarLinks">
+            <a href="#home" id="sideNavHome">
+                <span class="sidebar-link-icon">
+                    <!-- Home SVG -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 4L17 9.5" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/><rect x="5.5" y="10.5" width="9" height="6" rx="1.5" stroke="#6366f1" stroke-width="2"/></svg>
+                </span>Info
+            </a>
+            <a href="#pricing" id="sideNavPricing">
+                <span class="sidebar-link-icon">
+                    <!-- Pricing SVG (money) -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="10" rx="2" stroke="#6366f1" stroke-width="2"/><circle cx="10" cy="10" r="2.5" stroke="#6366f1" stroke-width="2"/><path d="M2 8h2M16 8h2M2 12h2M16 12h2" stroke="#6366f1" stroke-width="1.5"/></svg>
+                </span>Pricing
+            </a>
+            <a href="#recharge" id="sideNavRecharge">
+                <span class="sidebar-link-icon">
+                    <!-- Recharge SVG (coin) -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 8C3 6.34315 4.34315 5 6 5H18C19.6569 5 21 6.34315 21 8V16C21 17.6569 19.6569 19 18 19H6C4.34315 19 3 17.6569 3 16V8Z" stroke="#6366f1" stroke-width="2"></path> <path d="M3 10H21" stroke="#6366f1" stroke-width="2"></path> <path d="M14 15L17 15" stroke="#6366f1" stroke-width="2" stroke-linecap="round"></path> </g></svg>
+                </span>Nạp tiền
+            </a>
+            <a href="#shop" id="sideNavShop">
+                <span class="sidebar-link-icon">
+                    <!-- Shop SVG (cart) -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7" cy="16" r="1.5" fill="#6366f1"/><circle cx="15" cy="16" r="1.5" fill="#6366f1"/><path d="M3 4h2l2.5 9h7l2-6H6" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>Tạp hoá
+            </a>
+            <a href="#apitoken" id="sideNavApitoken">
+                <span class="sidebar-link-icon">
+                    <!-- API Token SVG (key) -->
+                    <svg fill="#6366f1" width="20" height="20" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M917.7 148.8l-42.4-42.4c-1.6-1.6-3.6-2.3-5.7-2.3s-4.1.8-5.7 2.3l-76.1 76.1a199.27 199.27 0 0 0-112.1-34.3c-51.2 0-102.4 19.5-141.5 58.6L432.3 308.7a8.03 8.03 0 0 0 0 11.3L704 591.7c1.6 1.6 3.6 2.3 5.7 2.3 2 0 4.1-.8 5.7-2.3l101.9-101.9c68.9-69 77-175.7 24.3-253.5l76.1-76.1c3.1-3.2 3.1-8.3 0-11.4zM769.1 441.7l-59.4 59.4-186.8-186.8 59.4-59.4c24.9-24.9 58.1-38.7 93.4-38.7 35.3 0 68.4 13.7 93.4 38.7 24.9 24.9 38.7 58.1 38.7 93.4 0 35.3-13.8 68.4-38.7 93.4zm-190.2 105a8.03 8.03 0 0 0-11.3 0L501 613.3 410.7 523l66.7-66.7c3.1-3.1 3.1-8.2 0-11.3L441 408.6a8.03 8.03 0 0 0-11.3 0L363 475.3l-43-43a7.85 7.85 0 0 0-5.7-2.3c-2 0-4.1.8-5.7 2.3L206.8 534.2c-68.9 69-77 175.7-24.3 253.5l-76.1 76.1a8.03 8.03 0 0 0 0 11.3l42.4 42.4c1.6 1.6 3.6 2.3 5.7 2.3s4.1-.8 5.7-2.3l76.1-76.1c33.7 22.9 72.9 34.3 112.1 34.3 51.2 0 102.4-19.5 141.5-58.6l101.9-101.9c3.1-3.1 3.1-8.2 0-11.3l-43-43 66.7-66.7c3.1-3.1 3.1-8.2 0-11.3l-36.6-36.2zM441.7 769.1a131.32 131.32 0 0 1-93.4 38.7c-35.3 0-68.4-13.7-93.4-38.7a131.32 131.32 0 0 1-38.7-93.4c0-35.3 13.7-68.4 38.7-93.4l59.4-59.4 186.8 186.8-59.4 59.4z"></path> </g></svg>
+                </span>API Token
+            </a>
+            <a href="#help" id="sideNavHelp">
+                <span class="sidebar-link-icon">
+                    <!-- Help SVG (book) -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="12" rx="2" stroke="#6366f1" stroke-width="2"/><path d="M7 4v12" stroke="#6366f1" stroke-width="1.5"/></svg>
+                </span>Hướng dẫn
+            </a>
+            <a href="#convertcoin" id="sideNavConvert">
+                <span class="sidebar-link-icon">
+                    <!-- CoinConvert SVG (Convert) -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.0312 2.03125C10.0813 2.03125 8.26125 2.59125 6.73125 3.55125L13.5913 10.4213L13.6013 7.68125C13.6013 7.27125 13.9413 6.93125 14.3513 6.93125C14.7713 6.93125 15.1013 7.27125 15.1013 7.68125L15.0913 12.2312C15.0913 12.5413 14.9012 12.8113 14.6213 12.9213C14.5312 12.9613 14.4313 12.9812 14.3413 12.9812C14.1413 12.9812 13.9513 12.9013 13.8113 12.7613L5.62125 4.56125C5.58125 4.52125 5.55125 4.48125 5.52125 4.44125C3.38125 6.28125 2.03125 9.00125 2.03125 12.0312C2.03125 17.5513 6.51125 22.0312 12.0312 22.0312C13.9812 22.0312 15.8013 21.4712 17.3313 20.5112L10.4713 13.6413L10.4613 16.3812C10.4613 16.7912 10.1213 17.1312 9.71125 17.1312C9.29125 17.1312 8.96125 16.7912 8.96125 16.3812L8.97125 11.8313C8.97125 11.5212 9.16125 11.2513 9.44125 11.1413C9.71125 11.0213 10.0413 11.0813 10.2513 11.3013L18.4412 19.5012C18.4813 19.5413 18.5112 19.5812 18.5413 19.6213C20.6812 17.7812 22.0312 15.0612 22.0312 12.0312C22.0312 6.51125 17.5513 2.03125 12.0312 2.03125Z" fill="#6366f1"></path> </g></svg>
+                </span>Quy đổi xu
+            </a>
+            <a href="#download" id="sideNavDownload">
+                <span class="sidebar-link-icon">
+                    <!-- Download SVG (book) -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="#6366f1"></path> <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z" fill="#6366f1"></path> </g></svg>
+                </span>Tải xuống
+            </a>
+            <a href="#setting" id="sideNavSetting">
+                <span class="sidebar-link-icon">
+                    <!-- Setting SVG (gear) -->
+                    <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#6366f1" stroke="#6366f1"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-q</title><path d="M262.29,192.31a64,64,0,1,0,57.4,57.4A64.13,64.13,0,0,0,262.29,192.31ZM416.39,256a154.34,154.34,0,0,1-1.53,20.79l45.21,35.46A10.81,10.81,0,0,1,462.52,326l-42.77,74a10.81,10.81,0,0,1-13.14,4.59l-44.9-18.08a16.11,16.11,0,0,0-15.17,1.75A164.48,164.48,0,0,1,325,400.8a15.94,15.94,0,0,0-8.82,12.14l-6.73,47.89A11.08,11.08,0,0,1,298.77,470H213.23a11.11,11.11,0,0,1-10.69-8.87l-6.72-47.82a16.07,16.07,0,0,0-9-12.22,155.3,155.3,0,0,1-21.46-12.57,16,16,0,0,0-15.11-1.71l-44.89,18.07a10.81,10.81,0,0,1-13.14-4.58l-42.77-74a10.8,10.8,0,0,1,2.45-13.75l38.21-30a16.05,16.05,0,0,0,6-14.08c-.36-4.17-.58-8.33-.58-12.5s.21-8.27.58-12.35a16,16,0,0,0-6.07-13.94l-38.19-30A10.81,10.81,0,0,1,49.48,186l42.77-74a10.81,10.81,0,0,1,13.14-4.59l44.9,18.08a16.11,16.11,0,0,0,15.17-1.75A164.48,164.48,0,0,1,187,111.2a15.94,15.94,0,0,0,8.82-12.14l6.73-47.89A11.08,11.08,0,0,1,213.23,42h85.54a11.11,11.11,0,0,1,10.69,8.87l6.72,47.82a16.07,16.07,0,0,0,9,12.22,155.3,155.3,0,0,1,21.46,12.57,16,16,0,0,0,15.11,1.71l44.89-18.07a10.81,10.81,0,0,1,13.14,4.58l42.77,74a10.8,10.8,0,0,1-2.45,13.75l-38.21,30a16.05,16.05,0,0,0-6.05,14.08C416.17,247.67,416.39,251.83,416.39,256Z" style="fill:none;stroke:#6366f1;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path></g></svg>
+                    
+                </span>Setting
+            </a>
+        </div>
+    </nav>
+    
+    <div class="dashboard-main-content">
+        <div class="dashboard-card">
+            <div class="dashboard-title" style="font-size:1.5em;font-weight:700;margin-bottom:18px;"><svg fill="#000000" width="80" height="80" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg><br>Dashboard</br></div>
+            <div id="dashboardContent">
+                <svg fill="#000000" width="20" height="20" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg>
+                <div>Chào mừng bạn đến với dashboard!</div>
+            </div>
+        </div>
+    </div>
+    <template id="infoTemplate">
+        <div class="dashboard-info-row">
+            <div class="dashboard-info-card">
+                <div class="dashboard-info-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    User
+                </div>
+                <div id="userInfoLoading" class="dashboard-info-value">Đang tải...</div>
+            </div>
+            <div class="dashboard-info-card">
+                <div class="dashboard-info-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fbd40e"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="fbd40e" stroke-width="2"></circle> <path d="M15 9.94728C14.5 9.3 13.8 8.5 12 8.5C10.2 8.5 9 9.51393 9 9.94728C9 10.3806 9.06786 10.9277 10 11.5C10.7522 11.9618 12.6684 12.0439 13.5 12.5C14.679 13.1467 14.8497 13.8202 14.8497 14.0522C14.8497 14.6837 13.4175 15.4852 12 15.5C10.536 15.5153 9.5 14.7 9 14.0522" stroke="fbd40e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 7V17" stroke="fbd40e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    Số dư tài khoản
+                </div>
+                <div id="userBalance" class="dashboard-info-value">Đang tải...</div>
+            </div>
+            <div class="dashboard-info-card wide">
+                <div class="dashboard-info-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Shopping_Cart_02"> <path id="Vector" d="M3 3H3.26835C3.74213 3 3.97943 3 4.17267 3.08548C4.34304 3.16084 4.48871 3.28218 4.59375 3.43604C4.71269 3.61026 4.75564 3.8429 4.84137 4.30727L7.00004 16L17.4218 16C17.875 16 18.1023 16 18.29 15.9199C18.4559 15.8492 18.5989 15.7346 18.7051 15.5889C18.8252 15.4242 18.8761 15.2037 18.9777 14.7631L18.9785 14.76L20.5477 7.95996L20.5481 7.95854C20.7023 7.29016 20.7796 6.95515 20.6947 6.69238C20.6202 6.46182 20.4635 6.26634 20.2556 6.14192C20.0184 6 19.6758 6 18.9887 6H5.5M18 21C17.4477 21 17 20.5523 17 20C17 19.4477 17.4477 19 18 19C18.5523 19 19 19.4477 19 20C19 20.5523 18.5523 21 18 21ZM8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20C9 20.5523 8.55228 21 8 21Z" stroke="#3050f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg> Mặt hàng đã mua</div>
+                <div class="dashboard-table-wrap">
+                    <table id="userCartTable" class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Tên mặt hàng</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="overflow-x:auto;max-height:180px;overflow-y:auto;scrollbar-width:thin;">
+                        <table id="userCartTable" class="dashboard-table">
+                            <tbody>
+                                <tr><td colspan="2" class="dashboard-empty">Đang tải...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-history-row">
+            <div class="dashboard-history-card">
+                <div class="dashboard-history-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 7V12L14.5 10.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    Lịch sử đăng nhập
+                </div>
+                <div class="dashboard-history-table-wrap">
+                    <table class="dashboard-history-table">
+                        <thead>
+                            <tr>
+                                <th>Thiết bị</th>
+                                <th>Thời gian</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="overflow-x:auto;max-height:180px;overflow-y:auto;scrollbar-width:thin;">
+                        <table class="dashboard-history-table">
+                            <tbody id="loginHistoryBody">
+                                <tr><td colspan="2" class="dashboard-history-empty">Đang tải...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-history-card">
+                <div class="dashboard-history-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.1103 10.2002C17.2217 10.5992 17.6354 10.8323 18.0343 10.721C18.4333 10.6096 18.6665 10.196 18.5551 9.79698L17.1103 10.2002ZM16.1752 7.0486L16.7219 6.53511L16.7213 6.5345L16.1752 7.0486ZM12.7832 5.1336L12.9384 4.39985L12.937 4.39955L12.7832 5.1336ZM8.96021 5.5336L8.65842 4.847L8.65767 4.84733L8.96021 5.5336ZM5.99036 8.1096L5.35543 7.71039L5.35542 7.71041L5.99036 8.1096ZM6.81326 16.9486L7.3621 16.4375L7.36177 16.4371L6.81326 16.9486ZM15.168 17.8196L15.6023 18.4311L15.6025 18.4309L15.168 17.8196ZM18.3046 14.9494C18.4547 14.5633 18.2634 14.1287 17.8773 13.9786C17.4912 13.8285 17.0566 14.0198 16.9065 14.4059L18.3046 14.9494ZM17.1057 9.81439C17.0039 10.2159 17.247 10.6239 17.6485 10.7256C18.05 10.8274 18.458 10.5843 18.5597 10.1828L17.1057 9.81439ZM19.252 7.45082C19.3537 7.0493 19.1107 6.64132 18.7092 6.53958C18.3077 6.43784 17.8997 6.68086 17.7979 7.08239L19.252 7.45082ZM17.6282 10.7202C18.0267 10.8331 18.4413 10.6016 18.5543 10.2031C18.6672 9.80459 18.4357 9.38997 18.0372 9.27702L17.6282 10.7202ZM15.4544 8.54502C15.0559 8.43208 14.6413 8.66358 14.5284 9.0621C14.4154 9.46061 14.6469 9.87524 15.0454 9.98818L15.4544 8.54502ZM11.475 9.9986C11.475 9.58439 11.1392 9.2486 10.725 9.2486C10.3107 9.2486 9.97496 9.58439 9.97496 9.9986H11.475ZM10.725 12.9986H9.97496C9.97496 13.4128 10.3107 13.7486 10.725 13.7486V12.9986ZM13.65 13.7486C14.0642 13.7486 14.4 13.4128 14.4 12.9986C14.4 12.5844 14.0642 12.2486 13.65 12.2486V13.7486ZM18.5551 9.79698C18.2138 8.5741 17.5849 7.45389 16.7219 6.53511L15.6286 7.5621C16.3241 8.30252 16.8334 9.2081 17.1103 10.2002L18.5551 9.79698ZM16.7213 6.5345C15.7009 5.45063 14.3829 4.70549 12.9384 4.39985L12.6279 5.86736C13.7692 6.10885 14.8156 6.6986 15.6291 7.5627L16.7213 6.5345ZM12.937 4.39955C11.4991 4.09822 10.006 4.25467 8.65842 4.847L9.262 6.22021C10.3241 5.75337 11.4986 5.6307 12.6294 5.86766L12.937 4.39955ZM8.65767 4.84733C7.30106 5.44538 6.15217 6.44321 5.35543 7.71039L6.62528 8.50881C7.26508 7.49125 8.18413 6.69538 9.26275 6.21988L8.65767 4.84733ZM5.35542 7.71041C3.42339 10.7834 3.79648 14.8132 6.26474 17.4601L7.36177 16.4371C5.36064 14.2911 5.05304 11.0095 6.62529 8.5088L5.35542 7.71041ZM6.26442 17.4598C8.71547 20.0915 12.6788 20.5077 15.6023 18.4311L14.7337 17.2082C12.428 18.8459 9.30467 18.5233 7.3621 16.4375L6.26442 17.4598ZM15.6025 18.4309C16.8196 17.5659 17.7584 16.3542 18.3046 14.9494L16.9065 14.4059C16.465 15.5415 15.7082 16.5155 14.7335 17.2083L15.6025 18.4309ZM18.5597 10.1828L19.252 7.45082L17.7979 7.08239L17.1057 9.81439L18.5597 10.1828ZM18.0372 9.27702L15.4544 8.54502L15.0454 9.98818L17.6282 10.7202L18.0372 9.27702ZM9.97496 9.9986V12.9986H11.475V9.9986H9.97496ZM10.725 13.7486H13.65V12.2486H10.725V13.7486Z" fill="#3050f3"></path> </g></svg>
+                    Lịch sử hoạt động
+                </div>
+                <div class="dashboard-history-table-wrap">
+                    <table class="dashboard-history-table">
+                        <thead>
+                            <tr>
+                                <th>Nội dung</th>
+                                <th>Thời gian</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="overflow-x:auto;max-height:180px;overflow-y:auto;scrollbar-width:thin;">
+                        <table class="dashboard-history-table">
+                            <tbody id="activityHistoryBody">
+                                <tr><td colspan="2" class="dashboard-history-empty">Đang tải...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-chart-section">
+            <div class="dashboard-chart-title">
+                <svg width="20" height="20" viewBox="0 0 2253 2253" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#3050f3"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect height="2250" id="stacked_bar_chart" style="fill:none;" width="2250" x="0.652" y="1.98"></rect> <rect height="666.667" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="396.485" y="1189.48"></rect> <rect height="187.5" style="fill:#308df8;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="396.485" y="1001.98"></rect> <rect height="281.25" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="396.485" y="710.313"></rect> <rect height="416.667" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="917.318" y="1439.48"></rect> <rect height="625" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="1438.15" y="1231.15"></rect> <rect height="125" style="fill:#308df8;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="917.318" y="1314.48"></rect> <rect height="314.583" style="fill:#308df8;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="1438.15" y="916.563"></rect> <rect height="250" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="917.318" y="1064.48"></rect> <rect height="518.75" style="fill:#3050f3;stroke:#3050f3;stroke-width:66.67px;" width="312.5" x="1438.15" y="397.813"></rect> <g> <path d="M288.152,389.48l-100,-200l-100,200l200,-0Z"></path> <path d="M1863.15,1964.48l200,100l-200,100l-0,-200Z"></path> <path d="M188.152,349.48l-0,1715l1715,-0" style="fill:none;stroke:#3050f3;stroke-width:66.67px;"></path> </g> </g></svg>
+                Thống kê hoạt động trong tháng
+                <span id="activityStats" style="font-size:0.98em;color:#555;font-weight:400;"></span>
+            </div>
+            <div class="dashboard-chart-box">
+                <canvas id="activityChart" height="120"></canvas>
+            </div>
+        </div>
+    </template>
+    <template id="pricingTemplate">
+        <div id="pricingDynamic"></div>
+    </template>
+    <template id="rechargeTemplate">
+        <form id="rechargeForm" style="max-width:340px;margin:0 auto;display:flex;flex-direction:column;gap:18px;">
+            <label for="rechargeAmount" style="font-weight:600;">Chọn mệnh giá</label>
+            <div class="custom-dropdown" id="rechargeDropdown">
+                <button type="button" class="custom-dropbtn" id="rechargeDropdownBtn">10.000 VND</button>
+                <div class="custom-dropdown-content" id="rechargeDropdownList" style="z-index:20;">
+                    <button type="button" class="dropdown-item active" data-value="10000">10.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="20000">20.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="30000">30.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="50000">50.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="100000">100.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="200000">200.000 VND</button>
+                    <button type="button" class="dropdown-item" data-value="500000">500.000 VND</button>
+                </div>
+            </div>
+            <input type="hidden" id="rechargeAmount" value="10000">
+            <label for="rechargeQty" style="font-weight:600;">Số lượng</label>
+            <input type="number" id="rechargeQty" min="1" value="1" style="padding:10px 16px;border-radius:10px;border:1.5px solid #3559a1;font-size:1.1em;" required>
+            <div id="rechargeSummary" style="background: var(--main-bg);border-radius:8px;padding:10px 14px;margin-bottom:4px;font-size:1.08em;color:var(--text-color)">
+                <b id="rechargeScoin">10</b> <span style="color:#38bdf8;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#38bdf8" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"></circle>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#0ea5e9" font-weight="bold">S</text>
+                    </svg></span> | <b id="rechargeCoin">1.000</b> <span style="color:#fbbf24;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#fbbf24" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"></circle>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#f59e42" font-weight="bold">C</text>
+                    </svg></span><br>
+                Thanh toán: <b id="rechargeTotal">10.000</b> VND
+            </div>
+            <!-- <div class="g-recaptcha" data-sitekey="6Lf1l3grAAAAAPkufUPz4hOWiA1VkBZMnf5q1jeg"></div> -->
+            <button type="submit" id="submitRecharge">Nạp tiền</button>
+            <div id="rechargeResult" style="margin-top:10px;text-align:center;color:#6366f1;font-weight:500;"></div>
+        </form>
+    </template>
+    <template id="rechargeWaitingTemplate">
+        <div class="container">
+            <div class="card" style="display: flex; flex-direction: row; gap: 18px; align-items: flex-start; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 260px;">
+                <div class="qr-code-container">
+                    <img id="qrImage" width="300" alt="QR VietQR">
+                    <div style="margin-top: 8px; color: #636e72; font-size: 13px;">
+                    Quét mã QR bằng app ngân hàng
+                    </div>
+                    <button id="saveQRBtn" style="margin-top:10px; padding:7px 18px; border-radius:7px; border:none; background:#0984e3; color:#fff; font-size:15px; cursor:pointer;">
+                    <i class="fa fa-download"></i> Lưu mã QR
+                    </button>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                    <span class="list-label">Số tài khoản:</span>
+                    <span>
+                        <span class="list-value" id="copySTK1">1057236828</span>
+                        <button class="copy" data-clipboard-target="#copySTK1" title="Sao chép"><i class="fa fa-copy"></i></button>
+                    </span>
+                    </li>
+                    <li class="list-group-item">
+                    <span class="list-label">Chủ tài khoản:</span>
+                    <span>
+                        <span class="list-value" id="name">LÊ VIỆT HÙNG</span>
+                        <button class="copy" data-clipboard-target="#name" title="Sao chép"><i class="fa fa-copy"></i></button>
+                    </span>
+                    </li>
+                    <li class="list-group-item">
+                    <span class="list-label">Ngân hàng:</span>
+                    <span>
+                        <span class="list-value" id="bank_name">Vietcombank</span>
+                        <button class="copy" data-clipboard-target="#bank_name" title="Sao chép"><i class="fa fa-copy"></i></button>
+                    </span>
+                    </li>
+                    <li class="list-group-item">
+                    <span class="list-label">Số tiền:</span>
+                    <span>
+                        <span class="list-value" id="amount">
+                        2.000 VNĐ
+                        </span>
+                        <button class="copy" data-clipboard-target="#amount" title="Sao chép"><i class="fa fa-copy"></i></button>
+                    </span>
+                    </li>
+                    <li class="list-group-item">
+                    <span class="list-label">Nội dung:</span>
+                    <span>
+                        <span class="list-value" id="copyNoiDung1" style="max-width: 160px; display: inline-block; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; white-space: nowrap;" title="OSOFvSFOXAOwLmw">OSOFvSFOXAOwLmw</span>
+                        <button class="copy" data-clipboard-target="#copyNoiDung1" title="Sao chép"><i class="fa fa-copy"></i></button>
+                    </span>
+                    </li>
+                </ul>
+                <div class="auto-process">
+                    <i class="fa fa-spinner fa-spin"></i> Giao dịch xử lý tự động trong vài giây...
+                </div>
+                <div style="margin-top: 16px; color: #e67e22; font-size: 15px; text-align: center; font-weight: 500;">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <span>Lưu ý: Không tự ý chuyển tab hoặc đóng trang khi đang xử lý giao dịch!</span>
+                </div>
+                </div>
+                <div style="
+                    flex: 1 1 320px;
+                    margin-left: 12px;
+                    background: var(--main-bg);
+                    border-radius: 12px;
+                    padding: 18px 16px;
+                    color: #636e72;
+                    font-size: 15px;
+                    min-width: 220px;
+                    max-width: 100%;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                ">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <i class="fa fa-info-circle" style="color: #0984e3; margin-right: 8px;"></i>
+                    <b>Thông tin quan trọng</b>
+                </div>
+                <ul style="padding-left: 18px; margin: 0;">
+                    <li><b>Giữ kết nối mạng ổn định</b> và <b>không chuyển qua tab khác </b>trong quá trình giao dịch.</li>
+                    <li>Bạn có thể kiểm tra lại trạng thái giao dịch sau khi chuyển khoản thành công.</li>
+                    <li>Hệ thống chỉ nhận số tiền là bội số của 10.000 VND, tự động làm tròn nếu dư.</li>
+                    <li>Phiên giao dịch sẽ hết hạn sau <b>15 phút</b></li>
+                    <li>Không cần chuyển khoản lại nếu đã chuyển đúng thông tin.</li>
+                    <li>Nếu gặp sự cố, liên hệ admin để được hỗ trợ.</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="shopTemplate">
+        <div class="shop-toolbar">
+            <div class="custom-dropdown" id="shopCustomDropdown">
+                <button class="custom-dropbtn" id="shopDropdownBtn">Tất cả chuyên mục</button>
+                <div class="custom-dropdown-content" id="shopDropdownList">
+                    <!-- Các lựa chọn sẽ được render bằng JS -->
+                </div>
+            </div>
+            <input id="shopSearchInput" type="text" placeholder="Tìm kiếm mặt hàng...">
+        </div>
+        <div id="shopNotice" class="shop-notice"></div>
+        <div id="shopWhiteboxScroll" class="shop-scroll-x">
+            <div id="shopCategoryList" class="shop-category-list"></div>
+        </div>
+        <div id="shopModal" class="shop-modal">
+            <div id="shopModalBox" class="shop-modal-box">
+                <button id="shopModalClose" class="shop-modal-close">&times;</button>
+                <div id="shopModalContent"></div>
+            </div>
+        </div>
+    </template>
+    <template id="tokenTemplate">
+        <h2>API Token</h2>
+        <div id="tokenBox" style="word-break:break-all;background:#f3f4f6;padding:12px 18px;border-radius:8px;margin:12px 0;color:#333;">
+            Đang tải token...
+        </div>
+        <button id="copyTokenBtn" style="padding:7px 18px;border-radius:6px;background:var(--accent);color:#fff;font-weight:600;border:none;">Copy Token</button>
+        <div id="copyResult" style="margin-top:10px;"></div>
+    </template>
+    <template id="helpTemplate">
+        <h2>Hướng dẫn sử dụng</h2>
+        <ol style="text-align:left;max-width:340px;margin:0 auto;">
+            <li>Đăng nhập tài khoản.</li>
+            <li>Nạp tiền vào tài khoản.</li>
+            <li>Chọn dịch vụ tại mục Tạp hoá.</li>
+            <li>Lấy API Token để sử dụng các API.</li>
+            <li>Liên hệ hỗ trợ nếu cần trợ giúp.</li>
+        </ol>
+        <div style="margin-top:12px;color:#888;">Chức năng demo, sẽ cập nhật thêm!</div>
+    </template>
+    <template id="downloadTemplate">
+        <div style="max-width:420px;border: 2.5px solid #facc15;margin:32px auto;border-radius:14px;box-shadow:0 2px 12px rgba(34,34,59,0.07);padding:28px 18px;text-align:center;">
+            <img src="https://i.imgur.com/2yaf2kK.png" alt="MINVST Tool Screenshot" style="max-width:320px;width:90%;border-radius:12px;box-shadow:0 2px 12px rgba(34,34,59,0.10);margin-bottom:18px;">
+            <p style="font-size:1.15rem; color:var(--accent); font-weight:500;">Tải xuống MINVST Tool For Windows</p>
+            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+                Download MINVST Tool
+            </a>
+            <p style="font-size:1.15rem; color:var(--accent); font-weight:500; margin-top:28px;">Tải xuống MINVST Tool For Termux</p>
+            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+                Download MINVST Tool
+            </a>
+            <p style="margin-top:18px; color:#888; font-size:0.98rem;">File .py, tương thích Windows 10/11, Android, Yêu cầu: đã cài đặt python 3.10+.<br>Nếu gặp vấn đề khi tải, vui lòng liên hệ hỗ trợ.</p>
+        </div>
+        <div style="max-width:420px;border: 2.5px solid #facc15;margin:32px auto;border-radius:14px;box-shadow:0 2px 12px rgba(34,34,59,0.07);padding:28px 18px;text-align:center;">
+            <img src="https://i.imgur.com/2yaf2kK.png" alt="MINVST Tool Screenshot" style="max-width:320px;width:90%;border-radius:12px;box-shadow:0 2px 12px rgba(34,34,59,0.10);margin-bottom:18px;">
+            <p style="font-size:1.15rem; color:var(--accent); font-weight:500;">Tải xuống MINVST Tool For Windows</p>
+            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+                Download MINVST Tool
+            </a>
+            <p style="font-size:1.15rem; color:var(--accent); font-weight:500; margin-top:28px;">Tải xuống MINVST Tool For Termux</p>
+            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+                Download MINVST Tool
+            </a>
+            <p style="margin-top:18px; color:#888; font-size:0.98rem;">File .py, tương thích Windows 10/11, Android, Yêu cầu: đã cài đặt python 3.10+.<br>Nếu gặp vấn đề khi tải, vui lòng liên hệ hỗ trợ.</p>
+        </div>
+    </template>
+    <template id="notificationPopupTemplate">
+        <div id="notificationPopup" class="notification-popup">
+            <div class="notification-popup-header">
+                <span>Thông báo</span>
+                <button id="closeNotifyPopup" style="background:none;border:none;font-size:1.2em;cursor:pointer;">&times;</button>
+            </div>
+            <div id="notificationPopupList" class="notification-popup-list">
+                <div style="color:#888;text-align:center;padding:18px;">Không có thông báo nào.</div>
+            </div>
+        </div>
+    </template>
+    <div id="notifyBox" style="position:fixed;top:30px;right:30px;z-index:99999;display:flex;flex-direction:column;gap:12px;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+let notificationsCache = [];
+let notificationsLoaded = false;
+let activityChartInstance = null;
+let recaptchaToken = null; 
+const token = localStorage.getItem('minvst_token');
+const sidebarNav = document.getElementById('sidebarNav');
+
+if (!token) {
+    window.location.href = "/";
+} else {
+    fetch('/api/profile', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => {
+        if (res.status === 401) {
+            window.location.href = "/";
+            // reload
+            location.reload();
+            return null;
+        }
+        return res.json();
+    })
+    .then(data => {
+        if (data && data.username) {
+            document.getElementById('dashboardContent').innerHTML =
+                `<div style="margin-bottom:12px;">Xin chào <b>${data.username}</b>!</div>
+                <div>Chúc bạn một ngày tốt lành 🎉</div>`;
+            // Hiển thị số dư trên header
+            document.getElementById('headerCoinVal').textContent = (typeof data.coins !== "undefined" ? data.coins.toLocaleString() : "0");
+            document.getElementById('headerScoinVal').textContent = (typeof data.scoins !== "undefined" ? data.scoins.toLocaleString() : "0");
+        }
+    });
+}
+
+
+// Dark/Light mode
+function setTheme(mode) {
+    const svgIconDark = `<svg viewBox="0 0 24 24" fill="none" width="20" height="20" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M22 12.0004C22 17.5232 17.5228 22.0004 12 22.0004C10.8358 22.0004 9.71801 21.8014 8.67887 21.4357C8.24138 20.3772 8 19.217 8 18.0004C8 15.7792 8.80467 13.7459 10.1384 12.1762C11.31 13.8818 13.2744 15.0004 15.5 15.0004C17.8615 15.0004 19.9289 13.741 21.0672 11.8572C21.3065 11.4612 22 11.5377 22 12.0004Z" fill="#ff0000"></path> <path d="M2 12C2 16.3586 4.78852 20.0659 8.67887 21.4353C8.24138 20.3768 8 19.2166 8 18C8 15.7788 8.80467 13.7455 10.1384 12.1758C9.42027 11.1303 9 9.86422 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12Z" fill="#ff0000"></path> </g></svg>`;
+    const svgIconLight = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25 19C4.25 18.5858 4.58579 18.25 5 18.25H19C19.4142 18.25 19.75 18.5858 19.75 19C19.75 19.4142 19.4142 19.75 19 19.75H5C4.58579 19.75 4.25 19.4142 4.25 19ZM7.25 22C7.25 21.5858 7.58579 21.25 8 21.25H16C16.4142 21.25 16.75 21.5858 16.75 22C16.75 22.4142 16.4142 22.75 16 22.75H8C7.58579 22.75 7.25 22.4142 7.25 22Z" fill="#ee6868"></path> <path d="M6.08267 15.25C5.5521 14.2858 5.25 13.1778 5.25 12C5.25 8.27208 8.27208 5.25 12 5.25C15.7279 5.25 18.75 8.27208 18.75 12C18.75 13.1778 18.4479 14.2858 17.9173 15.25H22C22.4142 15.25 22.75 15.5858 22.75 16C22.75 16.4142 22.4142 16.75 22 16.75H2C1.58579 16.75 1.25 16.4142 1.25 16C1.25 15.5858 1.58579 15.25 2 15.25H6.08267Z" fill="#ee6868"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C12.4142 1.25 12.75 1.58579 12.75 2V3C12.75 3.41421 12.4142 3.75 12 3.75C11.5858 3.75 11.25 3.41421 11.25 3V2C11.25 1.58579 11.5858 1.25 12 1.25ZM4.39861 4.39861C4.6915 4.10572 5.16638 4.10572 5.45927 4.39861L5.85211 4.79145C6.145 5.08434 6.145 5.55921 5.85211 5.85211C5.55921 6.145 5.08434 6.145 4.79145 5.85211L4.39861 5.45927C4.10572 5.16638 4.10572 4.6915 4.39861 4.39861ZM19.6011 4.39887C19.894 4.69176 19.894 5.16664 19.6011 5.45953L19.2083 5.85237C18.9154 6.14526 18.4405 6.14526 18.1476 5.85237C17.8547 5.55947 17.8547 5.0846 18.1476 4.79171L18.5405 4.39887C18.8334 4.10598 19.3082 4.10598 19.6011 4.39887ZM1.25 12C1.25 11.5858 1.58579 11.25 2 11.25H3C3.41421 11.25 3.75 11.5858 3.75 12C3.75 12.4142 3.41421 12.75 3 12.75H2C1.58579 12.75 1.25 12.4142 1.25 12ZM20.25 12C20.25 11.5858 20.5858 11.25 21 11.25H22C22.4142 11.25 22.75 11.5858 22.75 12C22.75 12.4142 22.4142 12.75 22 12.75H21C20.5858 12.75 20.25 12.4142 20.25 12Z" fill="#ee6868"></path> </g></svg>`;
+    if (mode === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeIcon').innerHTML = svgIconLight;
+        document.getElementById('themeText').textContent = 'Light';
+        localStorage.setItem('minvst_theme', 'dark');
+    } else {
+        document.body.classList.remove('dark');
+        document.getElementById('themeIcon').innerHTML = svgIconDark;
+        document.getElementById('themeText').textContent = 'Dark';
+        localStorage.setItem('minvst_theme', 'light');
+    }
+}
+(function() {
+    const theme = localStorage.getItem('minvst_theme') || 'light';
+    setTheme(theme);
+})();
+
+// --- Dashboard logic ---
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+// Kiểm tra đăng nhập (token)
+function setDashboardTitle(title, iconSvg) {
+    const titleElem = document.querySelector('.dashboard-card .dashboard-title');
+    if (titleElem) {
+        // Nếu có iconSvg thì thay icon, nếu không thì chỉ thay text
+        if (iconSvg) {
+            titleElem.innerHTML = iconSvg + title;
+        } else {
+            titleElem.textContent = title;
+        }
+    }
+}
+function notify(msg, type = "info", timeout = 3200) {
+    let box = document.getElementById('notifyBox');
+    if (!box) {
+        box = document.createElement('div');
+        box.id = 'notifyBox';
+        box.style.position = 'fixed';
+        box.style.top = '30px';
+        box.style.right = '30px';
+        box.style.zIndex = '99999';
+        box.style.display = 'flex';
+        box.style.flexDirection = 'column';
+        box.style.gap = '12px';
+        document.body.appendChild(box);
+    }
+    const toast = document.createElement('div');
+    toast.className = 'notify-toast ' + type;
+    toast.innerHTML = `
+        <span>${msg}</span>
+        <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
+        <div class="notify-progress-bar"></div>
+    `;
+    box.appendChild(toast);
+
+    // Animation progress bar
+    const progressBar = toast.querySelector('.notify-progress-bar');
+    progressBar.style.height = '4px';
+    progressBar.style.background = type === 'success' ? '#22c55e' : (type === 'error' ? '#ef4444' : '#6366f1');
+    progressBar.style.position = 'absolute';
+    progressBar.style.left = 0;
+    progressBar.style.right = 0;
+    progressBar.style.bottom = 0;
+    progressBar.style.borderRadius = '0 0 6px 6px';
+    progressBar.style.width = '100%';
+    progressBar.style.transition = `width linear ${timeout}ms`;
+    progressBar.style.pointerEvents = 'none';
+
+    // Đảm bảo toast có position:relative để progress bar đúng vị trí
+    toast.style.position = 'relative';
+    toast.style.overflow = 'hidden';
+
+    // Kích hoạt animation sau 10ms để transition hoạt động
+    setTimeout(() => {
+        progressBar.style.width = '0%';
+    }, 10);
+
+    setTimeout(() => {
+        toast.style.opacity = 0;
+        setTimeout(() => toast.remove(), 400);
+    }, timeout);
+}
+// notify('Chào mừng bạn đến với MINVST Dashboard!', 'info', 4000);
+function renderTemplate(templateId) {
+    const tpl = document.getElementById(templateId);
+    if (!tpl) return;
+    const dashContent = document.getElementById('dashboardContent');
+    dashContent.innerHTML = '';
+    const tempDiv = document.createElement('div');
+    tempDiv.className = 'fade-slide';
+    tempDiv.appendChild(tpl.content.cloneNode(true));
+    dashContent.appendChild(tempDiv);
+    setTimeout(() => {
+        tempDiv.classList.add('active');
+    }, 20);
+}
+function renderInfoContent() {
+        setDashboardTitle('Info', '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#6366f1"></path> </g></svg>');
+        renderTemplate('infoTemplate');
+        // Lấy thông tin user nếu cần
+        fetch('/api/profile', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Thông tin user
+        document.getElementById('userInfoLoading').innerHTML = `<b>${data.username}</b>`;
+        document.getElementById('userBalance').innerHTML = `
+            <div style="display:flex;gap:18px;align-items:center;justify-content:center;">
+                <span style="display:flex;align-items:center;gap:6px;font-weight:600;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="#fbbf24" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#f59e42" font-weight="bold">C</text>
+                    </svg>
+                    ${(typeof data.coins !== "undefined" ? data.coins.toLocaleString() : "0")}
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-weight:600;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="#38bdf8" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#0ea5e9" font-weight="bold">S</text>
+                    </svg>
+                    ${(typeof data.scoins !== "undefined" ? data.scoins.toLocaleString() : "0")}
+                </span>
+            </div>
+        `;
+        // Giỏ hàng table
+        const tbody = document.querySelector('#userCartTable tbody');
+        if (data.purchased_items && data.purchased_items.length > 0) {
+            tbody.innerHTML = data.purchased_items.map(item =>
+                `<tr>
+                    <td style="padding:10px 8px;">${item.name}</td>
+                    <td style="padding:10px 8px;text-align:right;">${item.buying_type === "coin" ? `<b>` + item.coin.toLocaleString() + `</b><svg width="20" height="20" viewBox="0 0 20 20" fill="#fbbf24" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#f59e42" font-weight="bold">C</text>
+                    </svg>`: `<b>` + item.scoin.toLocaleString() + `</b><svg width="20" height="20" viewBox="0 0 20 20" fill="#38bdf8" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                        <circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="11" fill="#0ea5e9" font-weight="bold">S</text>
+                    </svg>`}</td>
+                </tr>`
+            ).join('');
+        } else {
+            tbody.innerHTML = `<tr><td colspan="2" style="padding:10px 8px;text-align:center;color:#888;">Chưa có mặt hàng nào.</td></tr>`;
+        }
+        // Lịch sử đăng nhập
+        const loginTbody = document.getElementById('loginHistoryBody');
+        if (data.login_history && data.login_history.length > 0) {
+            loginTbody.innerHTML = data.login_history.slice().reverse().map(item =>
+                `<tr>
+                    <td style="padding:10px 8px;">${item.device}</td>
+                    <td style="padding:10px 8px;text-align:right;">${item.time}</td>
+                </tr>`
+            ).join('');
+        } else {
+            loginTbody.innerHTML = `<tr><td colspan="2" style="padding:10px 8px;text-align:center;color:#888;">Không có dữ liệu.</td></tr>`;
+        }
+        // Lịch sử hoạt động
+        const actTbody = document.getElementById('activityHistoryBody');
+        if (data.activity_history && data.activity_history.length > 0) {
+            actTbody.innerHTML = data.activity_history.slice().reverse().map(item =>
+                `<tr>
+                    <td style="padding:10px 8px;">${item.content || item.details}</td>
+                    <td style="padding:10px 8px;text-align:right;">${item.time || item.timestamp}</td>
+                </tr>`
+            ).join('');
+        } else {
+            actTbody.innerHTML = `<tr><td colspan="2" style="padding:10px 8px;text-align:center;color:#888;">Không có dữ liệu.</td></tr>`;
+        }
+        const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth(); // 0-based
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+// Sinh mảng ngày: ["2025-06-01", ..., "2025-06-30"]
+const labels = [];
+for (let d = 1; d <= daysInMonth; d++) {
+    labels.push(String(d));
+}
+
+// Đếm số hoạt động mỗi ngày
+const activityByDay = {};
+(data.activity_history || []).forEach(item => {
+    // Lấy ngày trong tháng (số) từ chuỗi YYYY-MM-DD
+    if (item.time) {
+        const day = Number(item.time.slice(8, 10)); // Lấy 2 ký tự cuối là ngày
+        if (day) activityByDay[day] = (activityByDay[day] || 0) + 1;
+    }
+});
+const counts = labels.map(day => activityByDay[Number(day)] || 0);
+        const canvas = document.getElementById('activityChart');
+const ctx = canvas.getContext('2d');
+
+// Tạo gradient một lần
+const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+gradient.addColorStop(0, 'rgba(99,102,241,0.85)');
+gradient.addColorStop(1, 'rgba(99,102,241,0.18)');
+
+if (activityChartInstance) activityChartInstance.destroy();
+activityChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Số hoạt động',
+            data: counts,
+            backgroundColor: gradient, // <-- truyền trực tiếp gradient
+            borderRadius: 8,
+            borderSkipped: false,
+            hoverBackgroundColor: 'rgba(99,102,241,1)',
+            barPercentage: 0.7,
+            categoryPercentage: 0.7
+        }]
+    },
+    options: {
+        responsive: true,
+        animation: {
+            duration: 900,
+            easing: 'easeOutQuart'
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: '#23272f',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#6366f1',
+                borderWidth: 1
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { color: '#6366f1', font: { weight: 600 } }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1, color: '#6366f1', font: { weight: 600 } },
+                grid: { color: 'rgba(99,102,241,0.08)' }
+            }
+        }
+    }
+});
+    });
+}
+function renderShopContent() {
+    setDashboardTitle('Tạp hoá', `<svg width="28" height="28" viewBox="9 -3 10 20" fill="none"><circle cx="7" cy="16" r="1.5" fill="#6366f1"/><circle cx="15" cy="16" r="1.5" fill="#6366f1"/><path d="M3 4h2l2.5 9h7l2-6H6" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/></svg>`);
+    renderTemplate('shopTemplate');
+    const token = localStorage.getItem('minvst_token') || '';
+    const notice = document.getElementById('shopNotice');
+    const list = document.getElementById('shopCategoryList');
+    const search = document.getElementById('shopSearchInput');
+    const modal = document.getElementById('shopModal');
+    const modalContent = document.getElementById('shopModalContent');
+    const modalClose = document.getElementById('shopModalClose');
+
+    // Custom dropdown filter
+    const dropdown = document.getElementById('shopCustomDropdown');
+    const btn = document.getElementById('shopDropdownBtn');
+    const dropdownList = document.getElementById('shopDropdownList');
+    let currentCategory = '';
+
+    notice.textContent = 'Đang tải danh mục...';
+
+    fetch('/api/shop/categories', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.categories || !Array.isArray(data.categories) || data.categories.length === 0) {
+            notice.textContent = 'Không có sản phẩm nào!';
+            list.innerHTML = '';
+            return;
+        } else {
+            notice.textContent = '';
+        }
+
+        // Render dropdown filter
+        function renderDropdown(categories) {
+            dropdownList.innerHTML = `<button class="dropdown-item${currentCategory === '' ? ' active' : ''}" data-value="">Tất cả chuyên mục</button>` +
+                categories.map(cat =>
+                    `<button class="dropdown-item${currentCategory === cat.category ? ' active' : ''}" data-value="${cat.category}">${cat.category}</button>`
+                ).join('');
+        }
+        renderDropdown(data.categories);
+
+        // Dropdown toggle
+        btn.onclick = function(e) {
+            dropdown.classList.toggle('open');
+            e.stopPropagation();
+        };
+        // Đóng dropdown khi click ngoài
+        document.addEventListener('click', () => dropdown.classList.remove('open'));
+        // Chọn chuyên mục
+        dropdownList.onclick = function(e) {
+            if (e.target.classList.contains('dropdown-item')) {
+                currentCategory = e.target.getAttribute('data-value');
+                btn.textContent = currentCategory || 'Tất cả chuyên mục';
+                renderDropdown(data.categories);
+                dropdown.classList.remove('open');
+                renderShopItems();
+            }
+        };
+
+        // Render function
+        function renderShopItems() {
+            const catVal = currentCategory;
+            const searchVal = search ? search.value.trim().toLowerCase() : '';
+            let cats = data.categories;
+            if (catVal) cats = cats.filter(c => c.category === catVal);
+            // Lọc sản phẩm theo search
+            cats = cats.map(cat => ({
+                ...cat,
+                products: cat.products.filter(p =>
+                    (!searchVal || p.name.toLowerCase().includes(searchVal))
+                )
+            })).filter(cat => cat.products.length > 0);
+
+            if (cats.length === 0) {
+                list.innerHTML = `<div style="color:#888;font-size:1.1em;padding:32px 0;">Không tìm thấy mặt hàng phù hợp.</div>`;
+                return;
+            }
+            list.innerHTML = cats.map(cat => `
+                <div class="shop-whitebox">
+                    <div class="shop-whitebox-title">${cat.category}</div>
+                    <div class="shop-items-list">
+                        ${cat.products.map(prod => `
+                            <div class="shop-item-card" tabindex="0" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;min-width:0;">
+                                <div class="shop-item-info" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+                                    <div class="shop-item-name" style="font-size:1.08em;font-weight:600;word-break:break-word;">${prod.name}</div>
+                                    <div class="shop-item-stock" style="font-size:0.98em;color:#888;">Còn lại: <b>${prod.stock !== undefined ? prod.stock : (prod.quantity !== undefined ? prod.quantity : '∞')}</b></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+                                    ${prod.coin && prod.coin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin" style="flex:1 1 120px;background:#fbbf24;color:#222;font-weight:600;padding:10px 0;border-radius:7px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                        <span style='font-size:0.98em;font-weight:500;display:flex;align-items:center;gap:3px;'>
+                                            <b>${prod.coin.toLocaleString()}</b>
+                                            <svg width="14" height="14" viewBox="0 0 20 20" fill="#fbbf24" style="vertical-align:middle;position:relative;top:1px;">
+                                                <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/>
+                                                <text x="10" y="15" text-anchor="middle" font-size="10" fill="#f59e42" font-weight="bold">C</text>
+                                            </svg>
+                                        </span>
+                                    </button>` : ''}
+                                    ${prod.scoin && prod.scoin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin" style="flex:1 1 120px;background:#38bdf8;color:#fff;font-weight:600;padding:10px 0;border-radius:7px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                        <span style='font-size:0.98em;font-weight:500;display:flex;align-items:center;gap:3px;'>
+                                            <b>${prod.scoin.toLocaleString()}</b>
+                                            <svg width="14" height="14" viewBox="0 0 20 20" fill="#38bdf8" style="vertical-align:middle;position:relative;top:1px;">
+                                                <circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"/>
+                                                <text x="10" y="15" text-anchor="middle" font-size="10" fill="#0ea5e9" font-weight="bold">S</text>
+                                            </svg>
+                                        </span>
+                                    </button>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            if (cats.length <= 2) {
+                list.style.justifyContent = 'center';
+            } else {
+                list.style.justifyContent = '';
+            }
+            // Gắn sự kiện xem chi tiết
+            Array.from(list.querySelectorAll('.shop-item-card')).forEach(card => {
+                card.onclick = function(e) {
+                    if (e.target.classList.contains('shopBuyBtn')) return; // Không mở modal khi bấm nút mua
+                    const name = card.querySelector('.shopBuyBtn').getAttribute('data-name');
+                    let prod, catName;
+                    for (const cat of cats) {
+                        prod = cat.products.find(p => p.name === name);
+                        if (prod) { catName = cat.category; break; }
+                    }
+                    if (!prod) return;
+                    // Hiển thị cả 2 nút mua bằng Coin và Scoin nếu có
+                    let buyBtns = '';
+                    if (prod.coin && prod.coin > 0) {
+                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin" style="margin-right:10px;background:#fbbf24;color:#222;font-weight:600;padding:10px 28px;border-radius:7px;border:none;cursor:pointer;">Mua bằng Coin</button>`;
+                    }
+                    if (prod.scoin && prod.scoin > 0) {
+                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin" style="background:#38bdf8;color:#fff;font-weight:600;padding:10px 28px;border-radius:7px;border:none;cursor:pointer;">Mua bằng Scoin</button>`;
+                    }
+                    modalContent.innerHTML = `
+                        <div style="font-size:1.18em;font-weight:700;color:var(--accent);margin-bottom:8px;">${prod.name}</div>
+                        <div style="font-size:1.05em;font-weight:500;margin-bottom:8px;">
+                            Giá :
+                            ${prod.coin && prod.coin > 0 ? prod.coin.toLocaleString() + ' <svg width="16" height="16" viewBox="0 0 20 20" fill="#fbbf24" style="vertical-align:middle;position:relative;top:2px;"><circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/><text x="10" y="15" text-anchor="middle" font-size="11" fill="#f59e42" font-weight="bold">C</text></svg>' : ''}
+                            ${prod.scoin && prod.scoin > 0 ? '<br>Hoặc : ' + prod.scoin.toLocaleString() + ' <svg width="16" height="16" viewBox="0 0 20 20" fill="#38bdf8" style="vertical-align:middle;position:relative;top:2px;"><circle cx="10" cy="10" r="9" stroke="#0ea5e9" stroke-width="2" fill="#bae6fd"/><text x="10" y="15" text-anchor="middle" font-size="11" fill="#0ea5e9" font-weight="bold">S</text></svg></br>' : ''}
+                        </div>
+                        <div style="font-size:0.97em;color:#888;margin-bottom:8px;">Chuyên mục: <b>${catName}</b></div>
+                        <div style="margin-bottom:10px;">
+                            <ul style="padding-left:18px;text-align:left;">
+                                ${(Array.isArray(prod.features) ? prod.features.map(f => `<li>${f}</li>`).join('') : '')}
+                            </ul>
+                        </div>
+                        <div style="font-size:0.97em;color:#888;">Còn lại: <b>${prod.stock !== undefined ? prod.stock : (prod.quantity !== undefined ? prod.quantity : '∞')}</b></div>
+                        <div style="margin-top:18px;display:flex;gap:10px;">${buyBtns}</div>
+                    `;
+                    modal.style.display = 'flex';
+                    // Gắn sự kiện mua trong modal cho từng nút
+                    modalContent.querySelectorAll('.shopBuyBtn').forEach(btnBuy => {
+                        btnBuy.onclick = function() {
+                            const payType = btnBuy.getAttribute('data-paytype');
+                            if (!confirm(`Bạn chắc chắn muốn mua "${prod.name}" bằng ${payType === 'coin' ? 'Coin' : 'Scoin'}?`)) return;
+                            btnBuy.disabled = true;
+                            btnBuy.textContent = 'Đang xử lý...';
+                            fetch('/api/shop/buy', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                body: JSON.stringify({ name: prod.name, pay_type: payType })
+                            })
+                            .then(res => res.json())
+                            .then(resp => {
+                                btnBuy.disabled = false;
+                                btnBuy.textContent = payType === 'coin' ? 'Mua bằng Coin' : 'Mua bằng Scoin';
+                                notify(resp.message, resp.success ? 'success' : 'error');
+                                // notice.textContent = resp.message;
+                                if (resp.success) {
+                                    btnBuy.textContent = 'Đã mua';
+                                    btnBuy.disabled = true;
+                                    price = resp.price;
+                                    resp.paying_type === "coin" ? document.getElementById('headerCoinVal').textContent = (Number(document.getElementById('headerCoinVal').textContent.replace(/,/g, '')) - price).toLocaleString() : document.getElementById('headerScoinVal').textContent = (Number(document.getElementById('headerScoinVal').textContent.replace(/,/g, '')) - price).toLocaleString();
+                                    setTimeout(() => { modal.style.display = 'none'; renderShopContent(); }, 1200);
+                                }
+                            })
+                            .catch(() => {
+                                btnBuy.disabled = false;
+                                btnBuy.textContent = payType === 'coin' ? 'Mua bằng Coin' : 'Mua bằng Scoin';
+                                notify('Có lỗi xảy ra, thử lại!', 'error');
+                                // notice.textContent = 'Có lỗi xảy ra, thử lại!';
+                            });
+                        };
+                    });
+                };
+            });
+            // ...existing code...
+            // Gắn sự kiện mua ngoài card (giữ nguyên, mặc định mua bằng coin)
+            Array.from(list.querySelectorAll('.shopBuyBtn')).forEach(btn => {
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    const name = btn.getAttribute('data-name');
+                    const payType = btn.getAttribute('data-paytype');
+                    if (!confirm(`Bạn chắc chắn muốn mua "${name}" bằng ${payType === 'coin' ? 'Coin' : 'Scoin'}?`)) return;
+                    btn.disabled = true;
+                    // btn.textContent = 'Đang xử lý...';
+                    fetch('/api/shop/buy', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({ name, pay_type: payType })
+                    })
+                    .then(res => res.json())
+                    .then(resp => {
+                        btn.disabled = false;
+                        // btn.textContent = payType === 'coin' ? 'Mua Coin' : 'Mua Scoin';
+                        notify(resp.message, resp.success ? 'success' : 'error');
+                        if (resp.success) {
+                            btn.textContent = 'Đã mua';
+                            btn.disabled = true;
+                            price = resp.price;
+                            resp.paying_type === "coin" ? document.getElementById('headerCoinVal').textContent = (Number(document.getElementById('headerCoinVal').textContent.replace(/,/g, '')) - price).toLocaleString() : document.getElementById('headerScoinVal').textContent = (Number(document.getElementById('headerScoinVal').textContent.replace(/,/g, '')) - price).toLocaleString();
+                            setTimeout(renderShopContent, 1200);
+                        }
+                    })
+                    .catch(() => {
+                        btn.disabled = false;
+                        // btn.textContent = payType === 'coin' ? 'Mua Coin' : 'Mua Scoin';
+                        notify('Có lỗi xảy ra, thử lại!', 'error');
+                    });
+                };
+            });
+        }
+        renderShopItems();
+        if (search) search.oninput = renderShopItems;
+    });
+
+    // Modal close
+    document.getElementById('shopModalClose').onclick = function() {
+        modal.style.display = 'none';
+    };
+    document.getElementById('shopModal').onclick = function(e) {
+        if (e.target === modal) modal.style.display = 'none';
+    };
+}
+function renderRechargeContent() {
+    setDashboardTitle('Nạp tiền', /* ...icon... */);
+    renderTemplate('rechargeTemplate');
+    const form = document.getElementById('rechargeForm');
+    const result = document.getElementById('rechargeResult');
+    const dropdown = document.getElementById('rechargeDropdown');
+    const btn = document.getElementById('rechargeDropdownBtn');
+    const list = document.getElementById('rechargeDropdownList');
+    const hiddenInput = document.getElementById('rechargeAmount');
+    const qtyInput = document.getElementById('rechargeQty');
+    const scoinElem = document.getElementById('rechargeScoin');
+    const coinElem = document.getElementById('rechargeCoin');
+    const totalElem = document.getElementById('rechargeTotal');
+
+    function updateSummary() {
+        const amount = Number(hiddenInput.value);
+        const qty = Number(qtyInput.value) || 1;
+        const scoin = Math.floor(amount / 10000 * 10 * qty);
+        const coin = Math.floor(amount / 10000 * 1000 * qty);
+        const total = amount * qty;
+        scoinElem.textContent = scoin.toLocaleString();
+        coinElem.textContent = coin.toLocaleString();
+        totalElem.textContent = total.toLocaleString();
+    }
+    updateSummary();
+
+    btn.onclick = function(e) {
+        dropdown.classList.toggle('open');
+        e.stopPropagation();
+    };
+    document.addEventListener('click', () => dropdown.classList.remove('open'));
+    list.onclick = function(e) {
+        if (e.target.classList.contains('dropdown-item')) {
+            btn.textContent = e.target.textContent;
+            hiddenInput.value = e.target.getAttribute('data-value');
+            Array.from(list.children).forEach(item => item.classList.remove('active'));
+            e.target.classList.add('active');
+            dropdown.classList.remove('open');
+            updateSummary();
+        }
+    };
+    qtyInput.oninput = updateSummary;
+
+    if (form) {
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            const amount = Number(hiddenInput.value);
+            const qty = Number(qtyInput.value);
+            if (qty < 1) {
+                result.textContent = "Số lượng phải lớn hơn 0!";
+                return;
+            }
+            let username = localStorage.getItem('minvst_user');
+            function doRecharge(username) {
+                const timestamps = Math.floor(Date.now() / 1000);
+                const taskRaw = `${username}.${amount / 10000}.${qty}.${timestamps}`;
+                const taskID = btoa(taskRaw);
+                const payload = {
+                    taskID: taskID,
+                    username: username,
+                    money: amount,
+                    count: qty
+                };
+                result.textContent = "Đang xử lý...";
+                fetch('/api/recharge', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '')
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showRechargeWaiting(amount, qty, data.transfer_content);
+                    } else {
+                        result.style.color = "#ef4444";
+                        result.textContent = data.message || "Nạp thất bại!";
+                    }
+                })
+                .catch(() => {
+                    result.style.color = "#ef4444";
+                    result.textContent = "Có lỗi xảy ra, thử lại!";
+                });
+            }
+            if (username) {
+                doRecharge(username);
+            } else {
+                fetch('/api/profile', {
+                    headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    username = data.username || '';
+                    localStorage.setItem('minvst_user', username);
+                    doRecharge(username);
+                });
+            }
+        };
+    }
+}
+// ...existing code...
+function showRechargeWaiting(amount, qty, transferContent) {
+    title = 'Quét qr';
+    setDashboardTitle(title, `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5249 2H16.5932C17.477 1.99999 18.1897 1.99999 18.7635 2.05454C19.3552 2.1108 19.8707 2.22996 20.3343 2.51405C20.8037 2.80168 21.1983 3.19632 21.486 3.6657C21.77 4.12929 21.8892 4.64482 21.9455 5.23653C22 5.8103 22 6.52304 22 7.40683V7.47517C22 8.05587 22 8.54048 21.9626 8.9341C21.9235 9.34559 21.8386 9.72907 21.623 10.0808C21.4121 10.425 21.1227 10.7144 20.7785 10.9254C20.4267 11.1409 20.0433 11.2258 19.6318 11.2649C19.2382 11.3024 18.7535 11.3023 18.1728 11.3023L17.0679 11.3023C16.2321 11.3024 15.5352 11.3024 14.9819 11.228C14.3979 11.1495 13.8706 10.9768 13.4469 10.5531C13.0232 10.1294 12.8505 9.60212 12.772 9.01812C12.6976 8.46484 12.6976 7.76789 12.6977 6.93209L12.6977 5.82725C12.6977 5.24654 12.6976 4.76185 12.7351 4.36823C12.7742 3.95674 12.8591 3.57325 13.0746 3.22152C13.2856 2.87731 13.575 2.5879 13.9192 2.37697C14.2709 2.16142 14.6544 2.07653 15.0659 2.0374C15.4595 1.99998 15.9442 1.99999 16.5249 2ZM17.3488 7.81395C16.8694 7.81395 16.6297 7.81395 16.4604 7.69385C16.4007 7.65148 16.3485 7.59933 16.3061 7.5396C16.186 7.37034 16.186 7.13061 16.186 6.65117C16.186 6.17173 16.186 5.93199 16.3061 5.76273C16.3485 5.703 16.4007 5.65085 16.4604 5.60847C16.6297 5.48837 16.8694 5.48837 17.3488 5.48837C17.8283 5.48837 18.068 5.48837 18.2373 5.60847C18.297 5.65085 18.3491 5.703 18.3915 5.76273C18.5116 5.93199 18.5116 6.17171 18.5116 6.65116C18.5116 7.13061 18.5116 7.37034 18.3915 7.5396C18.3491 7.59933 18.297 7.65148 18.2373 7.69385C18.068 7.81395 17.8283 7.81395 17.3488 7.81395Z" fill="#6366f1"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0808 2.37697C9.72907 2.16142 9.34559 2.07653 8.9341 2.0374C8.54047 1.99998 8.05583 1.99999 7.4751 2H7.40684C6.52307 1.99999 5.81029 1.99999 5.23653 2.05454C4.64482 2.1108 4.12929 2.22996 3.6657 2.51405C3.19632 2.80168 2.80168 3.19632 2.51405 3.6657C2.22996 4.12929 2.1108 4.64482 2.05454 5.23653C1.99999 5.81029 1.99999 6.52302 2 7.40679V7.47506C1.99999 8.05579 1.99998 8.54047 2.0374 8.9341C2.07653 9.34559 2.16142 9.72907 2.37697 10.0808C2.5879 10.425 2.87731 10.7144 3.22152 10.9254C3.57325 11.1409 3.95674 11.2258 4.36823 11.2649C4.76183 11.3024 5.24643 11.3023 5.82711 11.3023L6.93209 11.3023C7.76787 11.3024 8.46484 11.3024 9.01812 11.228C9.60212 11.1495 10.1294 10.9768 10.5531 10.5531C10.9768 10.1294 11.1495 9.60212 11.228 9.01812C11.3024 8.46484 11.3024 7.7679 11.3023 6.93212L11.3023 5.82726C11.3023 5.24658 11.3024 4.76183 11.2649 4.36823C11.2258 3.95674 11.1409 3.57325 10.9254 3.22152C10.7144 2.87731 10.425 2.5879 10.0808 2.37697ZM5.76273 7.69385C5.93199 7.81395 6.17171 7.81395 6.65116 7.81395C7.13061 7.81395 7.37034 7.81395 7.5396 7.69385C7.59933 7.65148 7.65148 7.59933 7.69385 7.5396C7.81395 7.37034 7.81395 7.13061 7.81395 6.65116C7.81395 6.17171 7.81395 5.93199 7.69385 5.76273C7.65148 5.703 7.59933 5.65085 7.5396 5.60847C7.37034 5.48837 7.13061 5.48837 6.65116 5.48837C6.17171 5.48837 5.93199 5.48837 5.76273 5.60847C5.703 5.65085 5.65085 5.703 5.60847 5.76273C5.48837 5.93199 5.48837 6.17171 5.48837 6.65116C5.48837 7.13061 5.48837 7.37034 5.60847 7.5396C5.65085 7.59933 5.703 7.65148 5.76273 7.69385Z" fill="#6366f1"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.01812 12.772C9.60212 12.8505 10.1294 13.0232 10.5531 13.4469C10.9768 13.8706 11.1495 14.3979 11.228 14.9819C11.3024 15.5352 11.3024 16.2321 11.3023 17.0679L11.3023 18.1728C11.3023 18.7535 11.3024 19.2382 11.2649 19.6318C11.2258 20.0433 11.1409 20.4267 10.9254 20.7785C10.7144 21.1227 10.425 21.4121 10.0808 21.623C9.72907 21.8386 9.34559 21.9235 8.9341 21.9626C8.54048 22 8.05577 22 7.47507 22H7.40683C6.52304 22 5.8103 22 5.23653 21.9455C4.64482 21.8892 4.12929 21.77 3.6657 21.486C3.19632 21.1983 2.80168 20.8037 2.51405 20.3343C2.22996 19.8707 2.1108 19.3552 2.05454 18.7635C1.99999 18.1897 1.99999 17.477 2 16.5932V16.5249C1.99999 15.9442 1.99998 15.4595 2.0374 15.0659C2.07653 14.6544 2.16142 14.2709 2.37697 13.9192C2.5879 13.575 2.87731 13.2856 3.22152 13.0746C3.57325 12.8591 3.95674 12.7742 4.36823 12.7351C4.76184 12.6976 5.24648 12.6977 5.82717 12.6977L6.93209 12.6977C7.76789 12.6976 8.46484 12.6976 9.01812 12.772ZM6.65116 18.5116C6.17171 18.5116 5.93199 18.5116 5.76273 18.3915C5.703 18.3491 5.65085 18.297 5.60847 18.2373C5.48837 18.068 5.48837 17.8283 5.48837 17.3488C5.48837 16.8694 5.48837 16.6297 5.60847 16.4604C5.65085 16.4007 5.703 16.3485 5.76273 16.3061C5.93199 16.186 6.17171 16.186 6.65115 16.186C7.13059 16.186 7.37034 16.186 7.5396 16.3061C7.59933 16.3485 7.65148 16.4007 7.69385 16.4604C7.81395 16.6297 7.81395 16.8694 7.81395 17.3488C7.81395 17.8283 7.81395 18.068 7.69385 18.2373C7.65148 18.297 7.59933 18.3491 7.5396 18.3915C7.37034 18.5116 7.13061 18.5116 6.65116 18.5116Z" fill="#6366f1"></path> <path d="M12.6977 16.6155V16.6512H14.093C14.093 15.9834 14.0939 15.5351 14.1286 15.1933C14.1622 14.8632 14.2216 14.7107 14.289 14.6098C14.3738 14.4828 14.4828 14.3738 14.6098 14.289C14.7107 14.2216 14.8632 14.1622 15.1933 14.1286C15.5351 14.0939 15.9834 14.093 16.6512 14.093H18.5116V12.6977H16.6155C15.9926 12.6977 15.4729 12.6976 15.0521 12.7404C14.6117 12.7853 14.203 12.8827 13.8346 13.1288C13.5553 13.3154 13.3154 13.5553 13.1288 13.8346C12.8827 14.203 12.7853 14.6117 12.7404 15.0521C12.6976 15.4729 12.6977 15.9926 12.6977 16.6155Z" fill="#6366f1"></path> <path d="M22 18.5351V18.5116H20.6046C20.6046 18.9546 20.6043 19.2519 20.5886 19.4821C20.5733 19.706 20.5459 19.8151 20.5161 19.8868C20.3981 20.1718 20.1718 20.3981 19.8868 20.5161C19.8151 20.5459 19.706 20.5733 19.4821 20.5886C19.2519 20.6043 18.9546 20.6046 18.5116 20.6046H16.6512V22H18.5351C18.9486 22 19.2937 22 19.5771 21.9807C19.8721 21.9606 20.1507 21.9172 20.4208 21.8053C21.0476 21.5456 21.5456 21.0476 21.8053 20.4208C21.9172 20.1507 21.9606 19.8721 21.9807 19.5771C22 19.2937 22 18.9486 22 18.5351Z" fill="#6366f1"></path> <path d="M14.093 21.3023C14.093 21.6876 13.7807 22 13.3953 22C13.01 22 12.6977 21.6876 12.6977 21.3023V18.5116H14.093V21.3023Z" fill="#6366f1"></path> <path d="M21.3023 12.6977C20.917 12.6977 20.6046 13.01 20.6046 13.3953V16.6512H22V13.3953C22 13.01 21.6876 12.6977 21.3023 12.6977Z" fill="#6366f1"></path> <path d="M16.0761 16.6173C16 16.8011 16 17.0341 16 17.5C16 17.9659 16 18.1989 16.0761 18.3827C16.1776 18.6277 16.3723 18.8224 16.6173 18.9239C16.8011 19 17.0341 19 17.5 19C17.9659 19 18.1989 19 18.3827 18.9239C18.6277 18.8224 18.8224 18.6277 18.9239 18.3827C19 18.1989 19 17.9659 19 17.5C19 17.0341 19 16.8011 18.9239 16.6173C18.8224 16.3723 18.6277 16.1776 18.3827 16.0761C18.1989 16 17.9659 16 17.5 16C17.0341 16 16.8011 16 16.6173 16.0761C16.3723 16.1776 16.1776 16.3723 16.0761 16.6173Z" fill="#6366f1"></path> </g></svg>`);
+    const dashboardContent = document.getElementById('dashboardContent');
+    const tpl = document.getElementById('rechargeWaitingTemplate');
+    dashboardContent.innerHTML = '';
+    const node = tpl.content.cloneNode(true);
+
+    // Thông tin động
+    const bankAccount = "1057236828";
+    const accountName = "LÊ VIỆT HÙNG";
+    const bankName = "Vietcombank";
+    const moneyStr = (amount * qty).toLocaleString() + " VNĐ";
+    const qrImg = `https://img.vietqr.io/image/VCB-${bankAccount}-FLfZOkd.jpg?amount=${amount * qty}&addInfo=${encodeURIComponent(transferContent)}&accountName=${encodeURIComponent(accountName)}`;
+
+    node.getElementById('qrImage').src = qrImg;
+    node.getElementById('copySTK1').textContent = bankAccount;
+    node.getElementById('name').textContent = accountName;
+    node.getElementById('bank_name').textContent = bankName;
+    node.getElementById('amount').textContent = moneyStr;
+    node.getElementById('copyNoiDung1').textContent = transferContent;
+    dashboardContent.appendChild(node);
+
+    // Gắn lại sự kiện copy và lưu QR
+    setTimeout(() => {
+        new ClipboardJS('.copy');
+        document.getElementById('saveQRBtn').onclick = function() {
+            const img = document.getElementById('qrImage');
+            fetch(img.src)
+                .then(res => res.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'qr-code.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                });
+        };
+    }, 100);
+
+    if (!window.rechargeIntervalRunning) {
+        window.rechargeIntervalRunning = true;
+        let interval = setInterval(() => {
+            const titleElem = document.querySelector('.dashboard-card .dashboard-title');
+            if (!titleElem || !titleElem.textContent.includes(title)) {
+                clearInterval(interval);
+                window.rechargeIntervalRunning = false;
+                return;
+            }
+
+            fetch('/api/recharge/status?taskID=' + encodeURIComponent(transferContent), {
+                headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
+            })
+            .then(res => res.json())
+            .then(statusData => {
+                if (statusData.status === 'ok') {
+                    clearInterval(interval);
+                    window.rechargeIntervalRunning = false;
+                    dashboardContent.querySelector('#rechargeWait').style.color = "#22c55e";
+                    dashboardContent.querySelector('#rechargeWait').textContent = "Nạp tiền thành công!";
+                }
+            });
+        }, 5000);
+    }
+
+}
+
+function renderTokenContent() {
+        setDashboardTitle('API Token');
+        renderTemplate('tokenTemplate');
+        setTimeout(() => {
+            const tokenVal = localStorage.getItem('minvst_token') || 'Không tìm thấy token!';
+            document.getElementById('tokenBox').textContent = tokenVal;
+            document.getElementById('copyTokenBtn').onclick = function() {
+                navigator.clipboard.writeText(tokenVal);
+                document.getElementById('copyResult').textContent = "Đã copy!";
+            };
+        }, 200);
+    }
+function renderPricingContent() {
+    setDashboardTitle('Pricing', '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V8.5C22 8.77614 21.7761 9 21.5 9L2.5 9C2.22386 9 2 8.77614 2 8.5V8ZM2.5 11C2.22386 11 2 11.2239 2 11.5V16C2 18.2091 3.79086 20 6 20H18C20.2091 20 22 18.2091 22 16V11.5C22 11.2239 21.7761 11 21.5 11L2.5 11ZM13 15C13 14.4477 13.4477 14 14 14H17C17.5523 14 18 14.4477 18 15C18 15.5523 17.5523 16 17 16H14C13.4477 16 13 15.5523 13 15Z" fill="#6366f1"></path> </g></svg>');
+    renderTemplate('pricingTemplate');
+    fetch('/api/plans')
+        .then(res => res.json())
+        .then(data => {
+            const wrap = document.getElementById('pricingDynamic');
+            if (!data.plans || !Array.isArray(data.plans)) {
+                wrap.innerHTML = '<div style="color:#888;">Không có dữ liệu gói dịch vụ.</div>';
+                return;
+            }
+            wrap.innerHTML = data.plans.map(group => `
+                <div style="background:var(--main-box-bg);border-radius:18px;padding:24px 18px 18px 18px;box-shadow:0 2px 12px rgba(34,34,59,0.07);margin-bottom:32px;">
+                    <div style="font-size:1.18em;font-weight:700;color:var(--accent);margin-bottom:18px;">${group.group}</div>
+                    <div class="pricing-plans">
+                        ${group.plans.map(plan => `
+                            <div class="plan${plan.highlight ? ' highlight' : ''}">
+                                <h3>${plan.name}</h3>
+                                <div class="plan-price">
+                                    ${
+                                        typeof plan.price === 'number'
+                                            ? plan.price.toLocaleString() + 'đ' + (group.pack ? ` <span style="font-size:0.95em;color:#888;">/${group.pack}</span>` : '')
+                                            : plan.price
+                                    }
+                                </div>
+                                <ul>
+                                    ${Array.isArray(plan.features) ? plan.features.map(f => `<li>${f}</li>`).join('') : ''}
+                                </ul>
+                                <button type="button">Chọn</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        });
+}
+function renderHelpContent() {
+        setDashboardTitle('Hướng dẫn');
+        renderTemplate('helpTemplate');
+    }
+function renderDownloadContent() {
+    setDashboardTitle('Download', `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:8px;">
+            <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="#6366f1"></path>
+            <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z" fill="#6366f1"></path>
+        </svg>`);
+    renderTemplate('downloadTemplate');
+}
+function fetchNotifications(showPopup = false) {
+    const token = localStorage.getItem('minvst_token');
+    if (!token) return;
+    fetch('/api/notifications', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        notificationsCache = Array.isArray(data.notifications) ? data.notifications : [];
+        notificationsLoaded = true;
+        updateNotifyDot();
+        if (showPopup) showNotificationPopup();
+    });
+}
+
+function updateNotifyDot() {
+    const dot = document.getElementById('notifyDot');
+    if (notificationsCache.length > 0) {
+        dot.style.display = '';
+    } else {
+        dot.style.display = 'none';
+    }
+}
+
+function showNotificationPopup() {
+    // Xoá popup cũ nếu có
+    let old = document.getElementById('notificationPopup');
+    if (old) old.remove();
+
+    const tpl = document.getElementById('notificationPopupTemplate');
+    const node = tpl.content.cloneNode(true);
+    document.body.appendChild(node);
+
+    const list = document.getElementById('notificationPopupList');
+    if (notificationsCache.length === 0) {
+        list.innerHTML = `<div style="color:#888;text-align:center;padding:18px;">Không có thông báo nào.</div>`;
+    } else {
+        list.innerHTML = notificationsCache.map(noti => `
+            <div class="notification-item ${noti.type || 'info'}">
+                <span class="noti-icon">
+                    ${noti.type === 'success' ? '<i class="fa fa-check-circle" style="color:#22c55e"></i>' :
+                      noti.type === 'error' ? '<i class="fa fa-times-circle" style="color:#ef4444"></i>' :
+                      '<i class="fa fa-info-circle" style="color:#6366f1"></i>'}
+                </span>
+                <span>${noti.msg}</span>
+            </div>
+        `).join('');
+    }
+    document.getElementById('closeNotifyPopup').onclick = function() {
+        document.getElementById('notificationPopup').remove();
+    };
+    // Đóng popup khi click ra ngoài
+    setTimeout(() => {
+        document.addEventListener('mousedown', closeNotifyPopupOutside);
+    }, 50);
+}
+function closeNotifyPopupOutside(e) {
+    const popup = document.getElementById('notificationPopup');
+    if (popup && !popup.contains(e.target)) {
+        popup.remove();
+        document.removeEventListener('mousedown', closeNotifyPopupOutside);
+    }
+}
+
+document.getElementById('themeToggleBtn').onclick = function() {
+    setTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+};
+document.getElementById('logoutBtn').onclick = function() {
+    fetch('/api/logout', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
+    }).finally(() => {
+        setCookie('minvst_user', '', -1);
+        localStorage.removeItem('minvst_token');
+        window.location.href = "/";
+    });
+};
+document.getElementById('headerNotifyBtn').onclick = function() {
+    if (!notificationsLoaded) {
+        fetchNotifications(true);
+    } else {
+        showNotificationPopup();
+    }
+};
+// Sidebar toggle
+document.getElementById('sidebarToggle').onclick = function() {
+    sidebarNav.classList.add('active');
+};
+document.getElementById('closeSidebar').onclick = function() {
+    sidebarNav.classList.remove('active');
+};
+
+document.getElementById('sideNavHome').onclick = function(e) {
+    e.preventDefault();
+    sidebarNav.classList.remove('active');
+    renderInfoContent();
+};
+document.getElementById('navHome').onclick = function(e) {
+    e.preventDefault();
+    renderInfoContent();
+};
+document.getElementById('sideNavPricing').onclick = function(e) {
+    e.preventDefault();
+    renderPricingContent();
+    sidebarNav.classList.remove('active');
+};
+document.getElementById('navPricing').onclick = function(e) {
+    e.preventDefault();
+    renderPricingContent();
+};
+document.getElementById('sideNavRecharge').onclick = function(e) {
+    e.preventDefault();
+    renderRechargeContent();
+    sidebarNav.classList.remove('active');
+};
+document.getElementById('navRecharge').onclick = function(e) {
+    e.preventDefault();
+    renderRechargeContent();
+};
+document.getElementById('sideNavShop').onclick = function(e) {
+    e.preventDefault();
+    renderShopContent();
+    sidebarNav.classList.remove('active');
+};
+document.getElementById('navShop').onclick = function(e) {
+    e.preventDefault();
+    renderShopContent();
+};
+document.getElementById('sideNavHelp').onclick = function(e) {
+    e.preventDefault();
+    renderHelpContent();
+    sidebarNav.classList.remove('active');
+};
+document.getElementById('sideNavDownload').onclick = function(e) {
+    e.preventDefault();
+    renderDownloadContent();
+    sidebarNav.classList.remove('active');
+};
+document.getElementById('navDownload').onclick = function(e) {
+    e.preventDefault();
+    renderDownloadContent();
+};
+fetchNotifications();
+</script>
+</body>
+</html>
