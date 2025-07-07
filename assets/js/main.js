@@ -1,6 +1,6 @@
 
 // Simple tab navigation
-const API_HOST = window.API_HOST || ""; // Ví dụ: "http://localhost:5500" hoặc "" nếu cùng domain
+const API_HOST = "http://127.0.0.1:5500"; // Ví dụ: "http://localhost:5500" hoặc "" nếu cùng domain
 
 const navLinks = {
     login: document.getElementById('navLogin'),
@@ -132,7 +132,7 @@ function updateAuthUI(user) {
         let navDashboard = document.getElementById('navDashboard');
         if (!navDashboard) {
             navDashboard = document.createElement('a');
-            navDashboard.href = "/dashboard";
+            navDashboard.href = "dashboard.html";
             navDashboard.id = "navDashboard";
             navDashboard.textContent = "Dashboard";
             navDashboard.style.color = "#b713bd";
@@ -142,19 +142,8 @@ function updateAuthUI(user) {
             // Sử dụng chuyển hướng qua fetch để gửi token/cookie
             navDashboard.addEventListener('click', function(e) {
                 // e.preventDefault();
-                const token = localStorage.getItem('minvst_token');
-                fetch('/dashboard', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    credentials: 'include'
-                }).then(res => res.text())
-                .then(html => {
-                    document.open();
-                    document.write(html);
-                    document.close();
-                });
+                location.href = API_HOST + '/dashboard';
+
             });
         }
 
@@ -366,7 +355,9 @@ document.querySelectorAll('.plan button').forEach(btn => {
 });
 
 function renderPricingIndex() {
-    fetch('/api/plans')
+    fetch(API_HOST + '/api/plans', {
+        method: 'GET',
+    })
         .then(res => res.json())
         .then(data => {
             const wrap = document.getElementById('pricingDynamic');

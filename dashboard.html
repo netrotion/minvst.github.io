@@ -451,11 +451,13 @@ let activityChartInstance = null;
 let recaptchaToken = null; 
 const token = localStorage.getItem('minvst_token');
 const sidebarNav = document.getElementById('sidebarNav');
+const API_HOST = "http://127.0.0.1:5500"
+
 
 if (!token) {
     window.location.href = "/";
 } else {
-    fetch('/api/profile', {
+    fetch(API_HOST + '/api/profile', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => {
@@ -591,7 +593,7 @@ function renderInfoContent() {
         setDashboardTitle('Info', '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#6366f1"></path> </g></svg>');
         renderTemplate('infoTemplate');
         // Lấy thông tin user nếu cần
-        fetch('/api/profile', {
+        fetch(API_HOST + '/api/profile', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => res.json())
@@ -753,7 +755,7 @@ function renderShopContent() {
 
     notice.textContent = 'Đang tải danh mục...';
 
-    fetch('/api/shop/categories', {
+    fetch(API_HOST + '/api/shop/categories', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => res.json())
@@ -894,7 +896,7 @@ function renderShopContent() {
                             if (!confirm(`Bạn chắc chắn muốn mua "${prod.name}" bằng ${payType === 'coin' ? 'Coin' : 'Scoin'}?`)) return;
                             btnBuy.disabled = true;
                             btnBuy.textContent = 'Đang xử lý...';
-                            fetch('/api/shop/buy', {
+                            fetch(API_HOST + '/api/shop/buy', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -936,7 +938,7 @@ function renderShopContent() {
                     if (!confirm(`Bạn chắc chắn muốn mua "${name}" bằng ${payType === 'coin' ? 'Coin' : 'Scoin'}?`)) return;
                     btn.disabled = true;
                     // btn.textContent = 'Đang xử lý...';
-                    fetch('/api/shop/buy', {
+                    fetch(API_HOST + '/api/shop/buy', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1041,7 +1043,7 @@ function renderRechargeContent() {
                     count: qty
                 };
                 result.textContent = "Đang xử lý...";
-                fetch('/api/recharge', {
+                fetch(API_HOST + '/api/recharge', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1066,7 +1068,7 @@ function renderRechargeContent() {
             if (username) {
                 doRecharge(username);
             } else {
-                fetch('/api/profile', {
+                fetch(API_HOST + '/api/profile', {
                     headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
                 })
                 .then(res => res.json())
@@ -1108,7 +1110,7 @@ function showRechargeWaiting(amount, qty, transferContent) {
         new ClipboardJS('.copy');
         document.getElementById('saveQRBtn').onclick = function() {
             const img = document.getElementById('qrImage');
-            fetch(img.src)
+            fetch(API_HOST + img.src)
                 .then(res => res.blob())
                 .then(blob => {
                     const url = URL.createObjectURL(blob);
@@ -1133,7 +1135,7 @@ function showRechargeWaiting(amount, qty, transferContent) {
                 return;
             }
 
-            fetch('/api/recharge/status?taskID=' + encodeURIComponent(transferContent), {
+            fetch(API_HOST + '/api/recharge/status?taskID=' + encodeURIComponent(transferContent), {
                 headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
             })
             .then(res => res.json())
@@ -1165,7 +1167,7 @@ function renderTokenContent() {
 function renderPricingContent() {
     setDashboardTitle('Pricing', '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V8.5C22 8.77614 21.7761 9 21.5 9L2.5 9C2.22386 9 2 8.77614 2 8.5V8ZM2.5 11C2.22386 11 2 11.2239 2 11.5V16C2 18.2091 3.79086 20 6 20H18C20.2091 20 22 18.2091 22 16V11.5C22 11.2239 21.7761 11 21.5 11L2.5 11ZM13 15C13 14.4477 13.4477 14 14 14H17C17.5523 14 18 14.4477 18 15C18 15.5523 17.5523 16 17 16H14C13.4477 16 13 15.5523 13 15Z" fill="#6366f1"></path> </g></svg>');
     renderTemplate('pricingTemplate');
-    fetch('/api/plans')
+    fetch(API_HOST + '/api/plans')
         .then(res => res.json())
         .then(data => {
             const wrap = document.getElementById('pricingDynamic');
@@ -1212,7 +1214,7 @@ function renderDownloadContent() {
 function fetchNotifications(showPopup = false) {
     const token = localStorage.getItem('minvst_token');
     if (!token) return;
-    fetch('/api/notifications', {
+    fetch(API_HOST + '/api/notifications', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => res.json())
@@ -1277,13 +1279,13 @@ document.getElementById('themeToggleBtn').onclick = function() {
     setTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
 };
 document.getElementById('logoutBtn').onclick = function() {
-    fetch('/api/logout', {
+    fetch(API_HOST + '/api/logout', {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('minvst_token') || '') }
     }).finally(() => {
         setCookie('minvst_user', '', -1);
         localStorage.removeItem('minvst_token');
-        window.location.href = "/";
+        window.location.href = "";
     });
 };
 document.getElementById('headerNotifyBtn').onclick = function() {
