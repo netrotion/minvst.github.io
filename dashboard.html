@@ -5,10 +5,10 @@
     <title>Dashboard | MINVST</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <script src="https://www.google.com/recaptcha/api.js"></script>  -->
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <link rel="icon" href="/assets/images/logo.png" type="image/png">
 </head>
 <body>
     <div class="header-bar">
@@ -19,14 +19,14 @@
                 </span>
                 <span class="header-title">MINVST</span>
                 <label class="toggle-switch" title="Toggle light/dark mode">
-                <button class="theme-toggle-btn" id="themeToggleBtn" aria-pressed="false" aria-label="Chuyển chế độ sáng/tối">
-                    <span class="theme-icon" id="themeIcon" aria-hidden="true"></span>
-                    <span id="themeText">Dark</span>
-                </button>
-            </label>
+                    <button class="theme-toggle-btn" id="themeToggleBtn" aria-pressed="false" aria-label="Chuyển chế độ sáng/tối">
+                        <span class="theme-icon" id="themeIcon" aria-hidden="true"></span>
+                        <span id="themeText">Dark</span>
+                    </button>
+                </label>
             </a>
             <nav class="header-nav" id="headerNav">
-                <a href="#home" id="navHome">Info</a>
+                <a href="#info" id="navInfo">Info</a>
                 <a href="#pricing" id="navPricing">Pricing</a>
                 <a href="#recharge" id="navRecharge">Nạp tiền</a>
                 <a href="#shop" id="navShop">Tạp hoá</a>
@@ -42,7 +42,7 @@
                 <span>☰</span>
             </button>
             
-            <div id="headerBalance" class="header-balance" style="display:flex;align-items:center;gap:16px;margin-right:auto;">
+            <div id="headerBalance" class="header-balance" style="display:flex;align-items:center;gap:16px;margin-right:auto;flex-direction: column;">
                 <span id="headerCoin" style="display:flex;align-items:center;gap:4px;font-weight:600;">
                     <svg width="18" height="18" viewBox="0 0 20 20" fill="#fbbf24" style="vertical-align:middle;">
                         <circle cx="10" cy="10" r="9" stroke="#f59e42" stroke-width="2" fill="#fde68a"/>
@@ -63,8 +63,7 @@
                 <i class="fa fa-bell"></i>
                 <span id="notifyDot" style="display:none;position:absolute;bottom:2px;right:-2px;width:9px;height:9px;background:#ef4444;border-radius:50%;"></span>
             </div>
-            <button id="logoutBtn" style="margin-right:10px;padding:8px 22px;border-radius:6px;background:#ef4444;color:#fff;font-weight:600;border:none;cursor:pointer;">
-                Đăng xuất
+            <button id="logoutBtn" style="margin-right:10px;padding:8px 22px;border-radius:6px;background:#ef4444;color:#fff;font-weight:600;border:none;cursor:pointer;">Đăng xuất
             </button>
         </div>
         
@@ -77,7 +76,7 @@
         </div>
         <div id="sidebarUserBoxWrap"></div>
         <div class="sidebar-links" id="sidebarLinks">
-            <a href="#home" id="sideNavHome">
+            <a href="#info" id="sidenavInfo">
                 <span class="sidebar-link-icon">
                     <!-- Home SVG -->
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 4L17 9.5" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/><rect x="5.5" y="10.5" width="9" height="6" rx="1.5" stroke="#6366f1" stroke-width="2"/></svg>
@@ -134,14 +133,13 @@
             </a>
         </div>
     </nav>
-    
-    <div class="dashboard-main-content">
-        <div class="dashboard-card">
-            <div class="dashboard-title" style="font-size:1.5em;font-weight:700;margin-bottom:18px;"><svg fill="#000000" width="80" height="80" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg><br>Dashboard</br></div>
-            <div id="dashboardContent">
-                <svg fill="#000000" width="20" height="20" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg>
-                <div>Chào mừng bạn đến với dashboard!</div>
-            </div>
+    <div class="grid-pattern"></div>
+    <div class="dashboard-content">
+        <div class="dashboard-title" style="font-size:1.5em;font-weight:700;margin-bottom:18px;"><svg fill="#000000" width="80" height="80" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg><br>Dashboard</br></div>
+        <div id="dashboardContent">
+            <!-- <svg fill="#000000" width="20" height="20" viewBox="0 0 24 24" id="dashboard-alt-3" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" style="fill: #2ca9bc;"></path><rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect><path id="secondary-2" data-name="secondary" d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z" style="fill: #2ca9bc;"></path></g></svg> -->
+            <div class="fa fa-spinner fa-spin"></div>
+            <div>Chào mừng bạn đến với dashboard!</div>
         </div>
     </div>
     <template id="infoTemplate">
@@ -378,13 +376,14 @@
         <div id="shopWhiteboxScroll" class="shop-scroll-x">
             <div id="shopCategoryList" class="shop-category-list"></div>
         </div>
-        <div id="shopModal" class="shop-modal">
-            <div id="shopModalBox" class="shop-modal-box">
-                <button id="shopModalClose" class="shop-modal-close">&times;</button>
-                <div id="shopModalContent"></div>
-            </div>
         </div>
     </template>
+    <div id="shopModal" class="shop-modal" style="display:none;">
+        <div id="shopModalBox" class="shop-modal-box">
+            <button id="shopModalClose" class="shop-modal-close">&times;</button>
+            <div id="shopModalContent"></div>
+        </div>
+    </div>
     <template id="tokenTemplate">
         <h2>API Token</h2>
         <div id="tokenBox" style="word-break:break-all;background:#f3f4f6;padding:12px 18px;border-radius:8px;margin:12px 0;color:#333;">
@@ -408,11 +407,11 @@
         <div style="max-width:420px;border: 2.5px solid #facc15;margin:32px auto;border-radius:14px;box-shadow:0 2px 12px rgba(34,34,59,0.07);padding:28px 18px;text-align:center;">
             <img src="https://i.imgur.com/2yaf2kK.png" alt="MINVST Tool Screenshot" style="max-width:320px;width:90%;border-radius:12px;box-shadow:0 2px 12px rgba(34,34,59,0.10);margin-bottom:18px;">
             <p style="font-size:1.15rem; color:var(--accent); font-weight:500;">Tải xuống MINVST Tool For Windows</p>
-            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+            <a href="/assets/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
                 Download MINVST Tool
             </a>
             <p style="font-size:1.15rem; color:var(--accent); font-weight:500; margin-top:28px;">Tải xuống MINVST Tool For Termux</p>
-            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+            <a href="/assets/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
                 Download MINVST Tool
             </a>
             <p style="margin-top:18px; color:#888; font-size:0.98rem;">File .py, tương thích Windows 10/11, Android, Yêu cầu: đã cài đặt python 3.10+.<br>Nếu gặp vấn đề khi tải, vui lòng liên hệ hỗ trợ.</p>
@@ -420,11 +419,11 @@
         <div style="max-width:420px;border: 2.5px solid #facc15;margin:32px auto;border-radius:14px;box-shadow:0 2px 12px rgba(34,34,59,0.07);padding:28px 18px;text-align:center;">
             <img src="https://i.imgur.com/2yaf2kK.png" alt="MINVST Tool Screenshot" style="max-width:320px;width:90%;border-radius:12px;box-shadow:0 2px 12px rgba(34,34,59,0.10);margin-bottom:18px;">
             <p style="font-size:1.15rem; color:var(--accent); font-weight:500;">Tải xuống MINVST Tool For Windows</p>
-            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+            <a href="/assets/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
                 Download MINVST Tool
             </a>
             <p style="font-size:1.15rem; color:var(--accent); font-weight:500; margin-top:28px;">Tải xuống MINVST Tool For Termux</p>
-            <a href="/static/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
+            <a href="/assets/minvsttool.py" download style="display:inline-block; background:var(--accent); color:#fff; font-weight:600; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:1.1rem; box-shadow:0 2px 8px rgba(99,102,241,0.10); transition:background 0.2s;">
                 Download MINVST Tool
             </a>
             <p style="margin-top:18px; color:#888; font-size:0.98rem;">File .py, tương thích Windows 10/11, Android, Yêu cầu: đã cài đặt python 3.10+.<br>Nếu gặp vấn đề khi tải, vui lòng liên hệ hỗ trợ.</p>
@@ -449,37 +448,52 @@ let notificationsCache = [];
 let notificationsLoaded = false;
 let activityChartInstance = null;
 let recaptchaToken = null; 
+let API_HOST = "";
 const token = localStorage.getItem('minvst_token');
 const sidebarNav = document.getElementById('sidebarNav');
-const API_HOST = "http://127.0.0.1:5500"
+// const API_HOST = "http://127.0.0.1:5500"
 
 
-if (!token) {
-    window.location.href = "/";
-} else {
-    fetch(API_HOST + '/api/profile', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => {
-        if (res.status === 401) {
-            window.location.href = "/";
-            // reload
-            location.reload();
-            return null;
-        }
-        return res.json();
-    })
-    .then(data => {
-        if (data && data.username) {
-            document.getElementById('dashboardContent').innerHTML =
-                `<div style="margin-bottom:12px;">Xin chào <b>${data.username}</b>!</div>
-                <div>Chúc bạn một ngày tốt lành 🎉</div>`;
-            // Hiển thị số dư trên header
-            document.getElementById('headerCoinVal').textContent = (typeof data.coins !== "undefined" ? data.coins.toLocaleString() : "0");
-            document.getElementById('headerScoinVal').textContent = (typeof data.scoins !== "undefined" ? data.scoins.toLocaleString() : "0");
-        }
-    });
+function startDashboard() {
+    fetchNotifications();
+    if (!token) {
+        window.location.href = "/";
+    } else {
+        fetch(API_HOST + '/api/profile', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => {
+            if (res.status === 401) {
+                window.location.href = "/";
+                return null;
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data && data.username) {
+                document.getElementById('dashboardContent').innerHTML =
+                    `<div style="margin-bottom:12px;">Xin chào <b>${data.username}</b>!</div>
+                    <div>Chúc bạn một ngày tốt lành 🎉</div>`;
+                document.getElementById('headerCoinVal').textContent = (typeof data.coins !== "undefined" ? data.coins.toLocaleString() : "0");
+                document.getElementById('headerScoinVal').textContent = (typeof data.scoins !== "undefined" ? data.scoins.toLocaleString() : "0");
+            }
+        });
+    }
+    // Các hàm khác sử dụng API_HOST cũng nên gọi sau khi startDashboard()
 }
+
+// Lấy endpoint động từ file endpoint.json (hoặc API tương tự)
+fetch('https://raw.githubusercontent.com/netrotion/hngl-endpoint/refs/heads/main/minvst.en')
+    .then(res => res.json())
+    .then(cfg => {
+        // console.log("Đã lấy cấu hình endpoint:", cfg);
+        API_HOST = cfg.endpoint || "http://localhost:5500"; // fallback nếu không có endpoint
+        startDashboard();
+    })
+    .catch(() => {
+        API_HOST = "http://localhost:5500"; // fallback nếu không lấy được
+        startDashboard();
+    });
 
 
 // Dark/Light mode
@@ -515,7 +529,7 @@ function setCookie(name, value, days) {
 }
 // Kiểm tra đăng nhập (token)
 function setDashboardTitle(title, iconSvg) {
-    const titleElem = document.querySelector('.dashboard-card .dashboard-title');
+    const titleElem = document.querySelector('.dashboard-content .dashboard-title');
     if (titleElem) {
         // Nếu có iconSvg thì thay icon, nếu không thì chỉ thay text
         if (iconSvg) {
@@ -824,7 +838,7 @@ function renderShopContent() {
                                     <div class="shop-item-stock" style="font-size:0.98em;color:#888;">Còn lại: <b>${prod.stock !== undefined ? prod.stock : (prod.quantity !== undefined ? prod.quantity : '∞')}</b></div>
                                 </div>
                                 <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
-                                    ${prod.coin && prod.coin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin" style="flex:1 1 120px;background:#fbbf24;color:#222;font-weight:600;padding:10px 0;border-radius:7px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                    ${prod.coin && prod.coin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin">
                                         <span style='font-size:0.98em;font-weight:500;display:flex;align-items:center;gap:3px;'>
                                             <b>${prod.coin.toLocaleString()}</b>
                                             <svg width="14" height="14" viewBox="0 0 20 20" fill="#fbbf24" style="vertical-align:middle;position:relative;top:1px;">
@@ -833,7 +847,7 @@ function renderShopContent() {
                                             </svg>
                                         </span>
                                     </button>` : ''}
-                                    ${prod.scoin && prod.scoin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin" style="flex:1 1 120px;background:#38bdf8;color:#fff;font-weight:600;padding:10px 0;border-radius:7px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                    ${prod.scoin && prod.scoin > 0 ? `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin">
                                         <span style='font-size:0.98em;font-weight:500;display:flex;align-items:center;gap:3px;'>
                                             <b>${prod.scoin.toLocaleString()}</b>
                                             <svg width="14" height="14" viewBox="0 0 20 20" fill="#38bdf8" style="vertical-align:middle;position:relative;top:1px;">
@@ -867,10 +881,10 @@ function renderShopContent() {
                     // Hiển thị cả 2 nút mua bằng Coin và Scoin nếu có
                     let buyBtns = '';
                     if (prod.coin && prod.coin > 0) {
-                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin" style="margin-right:10px;background:#fbbf24;color:#222;font-weight:600;padding:10px 28px;border-radius:7px;border:none;cursor:pointer;">Mua bằng Coin</button>`;
+                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="coin">Mua bằng Coin</button>`;
                     }
                     if (prod.scoin && prod.scoin > 0) {
-                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin" style="background:#38bdf8;color:#fff;font-weight:600;padding:10px 28px;border-radius:7px;border:none;cursor:pointer;">Mua bằng Scoin</button>`;
+                        buyBtns += `<button class="shopBuyBtn" data-name="${prod.name}" data-paytype="scoin">Mua bằng Scoin</button>`;
                     }
                     modalContent.innerHTML = `
                         <div style="font-size:1.18em;font-weight:700;color:var(--accent);margin-bottom:8px;">${prod.name}</div>
@@ -974,13 +988,17 @@ function renderShopContent() {
     // Modal close
     document.getElementById('shopModalClose').onclick = function() {
         modal.style.display = 'none';
+        document.body.style.overflow = '';
     };
     document.getElementById('shopModal').onclick = function(e) {
-        if (e.target === modal) modal.style.display = 'none';
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
     };
 }
 function renderRechargeContent() {
-    setDashboardTitle('Nạp tiền', /* ...icon... */);
+    setDashboardTitle('Nạp tiền', `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 8C3 6.34315 4.34315 5 6 5H18C19.6569 5 21 6.34315 21 8V16C21 17.6569 19.6569 19 18 19H6C4.34315 19 3 17.6569 3 16V8Z" stroke="#6366f1" stroke-width="2"></path> <path d="M3 10H21" stroke="#6366f1" stroke-width="2"></path> <path d="M14 15L17 15" stroke="#6366f1" stroke-width="2" stroke-linecap="round"></path> </g></svg>`);
     renderTemplate('rechargeTemplate');
     const form = document.getElementById('rechargeForm');
     const result = document.getElementById('rechargeResult');
@@ -1128,7 +1146,7 @@ function showRechargeWaiting(amount, qty, transferContent) {
     if (!window.rechargeIntervalRunning) {
         window.rechargeIntervalRunning = true;
         let interval = setInterval(() => {
-            const titleElem = document.querySelector('.dashboard-card .dashboard-title');
+            const titleElem = document.querySelector('.dashboard-content .dashboard-title');
             if (!titleElem || !titleElem.textContent.includes(title)) {
                 clearInterval(interval);
                 window.rechargeIntervalRunning = false;
@@ -1303,12 +1321,12 @@ document.getElementById('closeSidebar').onclick = function() {
     sidebarNav.classList.remove('active');
 };
 
-document.getElementById('sideNavHome').onclick = function(e) {
+document.getElementById('sidenavInfo').onclick = function(e) {
     e.preventDefault();
     sidebarNav.classList.remove('active');
     renderInfoContent();
 };
-document.getElementById('navHome').onclick = function(e) {
+document.getElementById('navInfo').onclick = function(e) {
     e.preventDefault();
     renderInfoContent();
 };
@@ -1353,7 +1371,6 @@ document.getElementById('navDownload').onclick = function(e) {
     e.preventDefault();
     renderDownloadContent();
 };
-fetchNotifications();
 </script>
 </body>
 </html>

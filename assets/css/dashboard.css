@@ -4,35 +4,52 @@
     --bg-main: #f3f4f6;
     --bg-card: #fff;
     --text-color: #22223b;
+    /* --color-primary: #6366f1; */
+    --color-primary-rgb: 99,102,241;
+    --color-text-primary: #23272f;
+    --border-radius-sm: 12px;
+    --space-sm: 12px;
+    --space-md: 22px;
+    --transition-speed-fast: 0.18s;
+    --transition-speed-normal: 0.32s;
+
+    --color-primary: #0400ff;
+    --secondary-color: #9b0c83;
+    
 }
+
 body {
     margin: 0;
     background: var(--bg-main);
     color: var(--text-color);
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     transition: background 0.2s, color 0.2s;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
 }
+
 body.dark {
+    --dark-bg: #0f0f15;
+    --color-primary: #00c8ff;
+    --secondary-color: #6e00ff;
+    /* --accent-color: #ff00aa; */
+    --bg-darker: #08080d;
+    --bg-card: rgba(30, 30, 40, 0.6);
     --bg-main: #181a20;
     --bg-card: #23272f;
     --text-color: #f3f4f6;
+    background-color: var(--dark-bg);
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(110, 0, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 200, 255, 0.15) 0%, transparent 50%);
 }
-button[type="submit"] {
-    background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 14px 0;
-    font-size: 1.08rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
-    transition: background 0.2s, transform 0.1s;
-}
-button[type="submit"]:hover {
-    background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
-    transform: translateY(-2px) scale(1.03);
-}
+
 .dashboard-header {
     display: grid;
     grid-template-columns: auto auto;
@@ -50,6 +67,12 @@ body.dark .dashboard-header {
     background: #f3f4f6;
     border-radius: 6px;
     font-size: 1em;
+}
+
+.header-title {
+    background: linear-gradient(90deg, var(--color-primary), var(--secondary-color));
+    background-clip: text;
+    color: transparent;
 }
 body.dark .header-balance span {
     background: #23272f;
@@ -72,24 +95,25 @@ body.dark .header-balance span {
     color: var(--accent);
     margin-left: 8px;
 }
-.dashboard-main-content {
-    display: flex;
+
+
+.dashboard-content {
     justify-content: center;
     align-items: flex-start;
-    min-height: calc(100vh - 70px);
-    background: var(--bg-main);
-    padding-top: 48px;
-}
-.dashboard-card {
-    background: var(--bg-card);
     background: var(--bg-card);
     border-radius: 14px;
     box-shadow: 0 2px 16px rgba(34,34,59,0.09);
     padding: 38px 34px 32px 34px;
+    padding-top: 48px;
     min-width: 320px;
-    max-width: 98vw;
+    min-height: auto;
+    height: auto;
+    top: 70px;
+    margin: 0 auto;
     text-align: center;
 }
+
+
 .fade-slide {
     opacity: 0;
     transform: translateY(30px);
@@ -242,11 +266,6 @@ body.dark ::-webkit-scrollbar-track {
     background: #23272f;
 }
 
-/* Firefox */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #6366f1 #f3f4f6;
-}
 body.dark * {
     scrollbar-color: #6366f1 #23272f;
 }
@@ -460,60 +479,194 @@ body.dark .shop-item-card:focus, body.dark .shop-item-card:hover {
 body.dark .shop-item-stock {
     color: #b3b3b3;
 }
+
 .shopBuyBtn {
-    background: var(--accent);
-    color: #fff;
-    font-weight: 600;
-    padding: 7px 18px;
-    border-radius: 7px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.18s;
+  display: block;
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-primary);
+  background-color: rgba(var(--color-primary-rgb), 0.10);
+  border: 1.5px solid rgba(var(--color-primary-rgb), 0.5);
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 1.08em;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    color var(--transition-speed-fast) ease-out,
+    background-color var(--transition-speed-fast) ease-out,
+    border-color var(--transition-speed-fast) ease-out,
+    box-shadow var(--transition-speed-fast) ease-out,
+    transform var(--transition-speed-fast) ease-out;
+  will-change: transform, background-color, box-shadow;
 }
-.shopBuyBtn:disabled {
-    background: #a5b4fc;
-    cursor: not-allowed;
+
+/* Hiệu ứng cyber quét khi hover */
+button[id="submitRecharge"]::before,
+.shopBuyBtn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--color-primary-rgb), 0.4), transparent);
+  transition: left var(--transition-speed-normal) ease-out;
+  z-index: -1;
+  pointer-events: none;
 }
-body.dark .shopBuyBtn:disabled {
-    background: #393a4a;
-    color: #bbb;
+
+button[id="submitRecharge"]:hover::before,
+button[id="submitRecharge"]:focus::before,
+.shopBuyBtn:hover::before,
+.shopBuyBtn:focus::before {
+  left: 100%;
 }
-.shop-modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    inset: 0; /* Thay cho left:0;top:0;width:100vw;height:100vh; */
-    background: rgba(34,34,59,0.18);
-    /* display: flex; */
-    align-items: center;
+
+.shopBuyBtn:hover,
+.shopBuyBtn:focus {
+  background-color: rgba(var(--color-primary-rgb), 0.25);
+  border-color: var(--color-primary);
+  color: #fff;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.4);
+  outline: none;
+}
+.shopBuyBtn:active {
+  transform: scale(0.98);
+  background-color: rgba(var(--color-primary-rgb), 0.3);
+}
+
+button[id="submitRecharge"],
+.shopBuyBtn[data-paytype="coin"],
+.shopBuyBtn[data-paytype="scoin"] {
+    display: flex;
     justify-content: center;
-    /* Đảm bảo modal luôn căn giữa cả dọc và ngang */
-    pointer-events: auto;
+    align-items: center;
+    width: 100%;
+    padding: 14px 0;
+    font-weight: 600;
+    font-size: 1.08em;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border-radius: 8px;
+    transition:
+        color 0.18s,
+        background 0.18s,
+        border-color 0.18s,
+        box-shadow 0.18s,
+        transform 0.13s;
+    will-change: transform, background, box-shadow;
+    box-shadow: 0 2px 12px #e11d4820, 0 1.5px 8px #fff2;
+}
+
+.shopBuyBtn[data-paytype="coin"] {
+  color: #fff;
+  background: #181a20;
+  border: 1.5px solid #e11d48;
+}
+.shopBuyBtn[data-paytype="coin"]:hover,
+.shopBuyBtn[data-paytype="coin"]:focus {
+  background: linear-gradient(120deg, #2b0a13 0%, #4b0a1e 100%);
+  border-color: #fb7185;
+  box-shadow: 0 0 16px #e11d48a0, 0 2px 12px #fff3;
+}
+.shopBuyBtn[data-paytype="coin"]:active {
+  background: #4b0a1e;
+}
+input[id="rechargeQty"],
+button[id="submitRecharge"],
+.shopBuyBtn[data-paytype="scoin"] {
+  color: #fff;
+  background: #181a20;
+  border: 1.5px solid #2563eb;
+  box-shadow: 0 2px 12px #2563eb20, 0 1.5px 8px #fff2;
+}
+button[id="submitRecharge"]:hover,
+button[id="submitRecharge"]:focus,
+.shopBuyBtn[data-paytype="scoin"]:hover,
+.shopBuyBtn[data-paytype="scoin"]:focus {
+  background: linear-gradient(120deg, #233a6b 0%, #3b0ca3 100%);
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px #2563eba0, 0 2px 12px #fff3;
+}
+button[id="submitRecharge"]:active,
+.shopBuyBtn[data-paytype="scoin"]:active {
+  background: #233a6b;
+}
+body:not(.dark) .shopBuyBtn[data-paytype="coin"] {
+  background: #fff;
+  color: #e11d48;
+  border: 1.5px solid #e11d48;
+}
+body:not(.dark) .shopBuyBtn[data-paytype="coin"]:hover,
+body:not(.dark) .shopBuyBtn[data-paytype="coin"]:focus {
+  background: #fff;
+  border-color: #fb7185;
+}
+
+body:not(.dark) input[id="rechargeQty"],
+body:not(.dark) button[id="submitRecharge"],
+body:not(.dark) .shopBuyBtn[data-paytype="scoin"] {
+  background: #fff;
+  color: #2563eb;
+  border: 1.5px solid #2563eb;
+}
+body:not(.dark) button[id="submitRecharge"]:hover,
+body:not(.dark) button[id="submitRecharge"]:focus,
+body:not(.dark) .shopBuyBtn[data-paytype="scoin"]:hover,
+body:not(.dark) .shopBuyBtn[data-paytype="scoin"]:focus {
+  border-color: #38bdf8;
+}
+
+.shop-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 34, 59, 0.32);
+  transition: background 0.18s;
+}
+.shop-modal[style*="display: flex"] {
+  display: flex !important;
 }
 .shop-modal-box {
-    background: var(--bg-card);
-    max-width: 380px;
-    width: 92vw;
-    border-radius: 14px;
-    box-shadow: 0 2px 24px rgba(34,34,59,0.18);
-    padding: 28px 18px;
-    position: relative;
-    animation: fadeIn .18s;
-    margin: 0;
-    left: auto; right: auto; top: auto; bottom: auto;
-    transform: none;
-    /* Thêm dòng này để modal không bị kéo ra ngoài màn hình nhỏ */
-    box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.13);
+  max-width: 96vw;
+  min-width: 0;
+  width: 380px;
+  padding: 28px 18px 18px 18px;
+  position: relative;
+  animation: fadeInNotify 0.18s;
+  margin: 0 8px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 .shop-modal-close {
-    position: absolute;
-    top: 10px; right: 14px;
-    font-size: 1.5em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--accent);
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.7em;
+  color: #888;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.15s;
 }
+.shop-modal-close:hover { color: #ef4444; }
+
 .container {
     min-height: 100vh;
     display: flex;
@@ -788,4 +941,10 @@ body.dark .shop-modal-box {
         max-width: 98vw;
         padding: 14px 8px 12px 8px;
     }
+}
+
+@media (max-width: 600px) {
+  .shop-category-list {
+    flex-direction: column;
+  }
 }
