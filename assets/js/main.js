@@ -28,15 +28,12 @@ function showSection(section) {
     if (navLinks[section]) navLinks[section].classList.add('active');
 }
 
-navLinks.login.addEventListener('click', e => { e.preventDefault(); showSection('login'); });
-navLinks.register.addEventListener('click', e => { e.preventDefault(); showSection('register'); });
-navLinks.home.addEventListener('click', e => { e.preventDefault(); showSection('home'); });
-navLinks.pricing.addEventListener('click', e => { e.preventDefault(); showSection('pricing'); });
-navLinks.apidocument.addEventListener('click', e => { e.preventDefault(); showSection('apidocument'); });
-navLinks.download.addEventListener('click', e => { e.preventDefault(); showSection('download'); });
-
-// Default to login
-showSection('login');
+navLinks.login.addEventListener('click', e => { e.preventDefault(); showSection('login'); document.querySelector('.hero').classList.add('hero-hidden');});
+navLinks.register.addEventListener('click', e => { e.preventDefault(); showSection('register'); document.querySelector('.hero').classList.add('hero-hidden');});
+navLinks.home.addEventListener('click', e => { e.preventDefault(); showSection('home'); document.querySelector('.hero').classList.remove('hero-hidden');});
+navLinks.pricing.addEventListener('click', e => { e.preventDefault(); showSection('pricing'); document.querySelector('.hero').classList.add('hero-hidden');});
+navLinks.apidocument.addEventListener('click', e => { e.preventDefault(); showSection('apidocument'); document.querySelector('.hero').classList.add('hero-hidden');});
+navLinks.download.addEventListener('click', e => { e.preventDefault(); showSection('download'); document.querySelector('.hero').classList.add('hero-hidden');});
 
 // --- API HANDLING FOR LOGIN & REGISTER ---
 
@@ -123,7 +120,8 @@ function updateAuthUI(user) {
         userBox.style.gap = '10px';
         userBox.style.marginLeft = 'auto';
         userBox.innerHTML = `
-            <span style="font-weight:600;color:var(--accent);" class="header-user-name"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> ${user.name || user.username}</span>
+            <i class="ri-user-3-fill" style="color:var(--accent)"></i>
+            <span style="font-weight:600;color:var(--accent);"> ${user.name || user.username}</span>
             <button id="headerLogoutBtn" style="background:#f87171;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-weight:600;cursor:pointer;">Logout</button>
         `;
         headerActions.appendChild(userBox);
@@ -197,7 +195,7 @@ function updateAuthUI(user) {
 function logoutUser() {
     clearUserSession();
     updateAuthUI(null);
-    showSection('login');
+    showSection('home');
 }
 
 // --- Auto login if cookie exists ---
@@ -206,7 +204,7 @@ if (userSession) {
     updateAuthUI(userSession);
     showSection('home');
 } else {
-    showSection('login');
+    showSection('home');
 }
 
 // --- Login/Register logic update ---
@@ -321,6 +319,7 @@ Array.from(sidebarNav.querySelectorAll('a')).forEach(link => {
         if (sections[id]) showSection(id);
     });
 });
+
 document.getElementById('apiSearch').addEventListener('input', function() {
     const q = this.value.trim().toLowerCase();
     document.querySelectorAll('#apiDocList .pm-api-group').forEach(function(group) {
@@ -334,18 +333,18 @@ document.getElementById('apiSearch').addEventListener('input', function() {
     });
 });
 
-document.querySelectorAll('.plan button').forEach(btn => {
-    btn.onclick = function() {
+document.addEventListener('click', function (e) {
+    if (e.target.matches('.plan button')) {
+        console.log("Clicked (delegated)");
         const token = localStorage.getItem('minvst_token');
         if (!token) {
-            // Chưa đăng nhập, chuyển sang form login
             showSection('login');
         } else {
-            // Đã đăng nhập, chuyển sang dashboard và tab pricing
-            window.location.href = "/dashboard#pricing";
+            window.location.href = "/dashboard.html";
         }
-    };
+    }
 });
+
 
 function renderPricingIndex() {
     fetch(API_HOST + '/api/plans', {
@@ -385,6 +384,124 @@ function renderPricingIndex() {
 }
 
 // Gọi khi trang load
+
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('pricingDynamic')) renderPricingIndex();
+    const initAnimations = () => {
+        const tl = anime.timeline({
+            easing: 'cubicBezier(0.165, 0.84, 0.44, 1)'
+        });
+
+        tl.add({
+            targets: '.hero h1 .char',
+            translateY: ['110%', '0%'],
+            opacity: [0, 1],
+            duration: 1200,
+            delay: anime.stagger(30)
+        }).add({
+            targets: '.hero .subtitle, .hero .hero-buttons',
+            translateY: ['20px', '0px'],
+            opacity: [0, 1],
+            duration: 1000,
+        }, '-=800');
+        
+        const donateBtn = document.querySelector('.fixed-donate-btn');
+        if(donateBtn) {
+            tl.add({
+                targets: donateBtn,
+                translateY: ['-150%', '0%'],
+                opacity: [0, 1],
+                duration: 800
+            }, '-=400');
+        }
+    };
+    
+    const scrollAnimations = () => {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        document.querySelectorAll('.anim-reveal').forEach(el => observer.observe(el));
+    };
+    
+    const featureStackingEffect = () => {
+        const featureCards = document.querySelectorAll('.feature-card');
+        if(featureCards.length === 0) return;
+
+        anime({
+            targets: featureCards,
+            translateY: (el, i) => i * -15,
+            scale: (el, i) => 1 - (featureCards.length - 1 - i) * 0.05,
+        });
+    };
+    
+    const tabsFunctionality = () => {
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
+        const tabIndicator = document.querySelector('.tab-indicator');
+        if (!tabs.length || !tabIndicator) return;
+        
+        const updateIndicator = (tab) => {
+            if (tab) {
+                tabIndicator.style.width = tab.offsetWidth + 'px';
+                tabIndicator.style.left = tab.offsetLeft + 'px';
+            }
+        };
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetContentId = tab.dataset.tab + '-content';
+                const targetContent = document.getElementById(targetContentId);
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                contents.forEach(c => c.classList.remove('active'));
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+                updateIndicator(tab);
+            });
+        });
+        
+        const firstTab = document.querySelector('.tab-button.active');
+        if (firstTab) {
+            updateIndicator(firstTab);
+        }
+    };
+
+    const copyButtonLogic = () => {
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            const buttonText = button.querySelector('span');
+            button.addEventListener('click', () => {
+                const codeBlock = button.parentElement.querySelector('code, pre code');
+                if(codeBlock) {
+                    navigator.clipboard.writeText(codeBlock.innerText.trim()).then(() => {
+                        if(buttonText) buttonText.textContent = 'Đã Sao Chép!';
+                        button.querySelector('i').className = 'ri-check-line';
+                        
+                        setTimeout(() => {
+                            if(buttonText) buttonText.textContent = 'Copy';
+                            button.querySelector('i').className = 'ri-clipboard-line';
+                        }, 2000);
+                    });
+                }
+            });
+        });
+    };
+    
+    initAnimations();
+    scrollAnimations();
+    featureStackingEffect();
+    tabsFunctionality();
+    copyButtonLogic();
+
 });

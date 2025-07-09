@@ -1,7 +1,7 @@
 
 :root {
     --accent: #6366f1;
-    --bg-main: #f3f4f6;
+    --main-bg: #f3f4f6;
     --bg-card: #fff;
     --text-color: #22223b;
     /* --color-primary: #6366f1; */
@@ -12,7 +12,6 @@
     --space-md: 22px;
     --transition-speed-fast: 0.18s;
     --transition-speed-normal: 0.32s;
-
     --color-primary: #0400ff;
     --secondary-color: #9b0c83;
     
@@ -20,7 +19,7 @@
 
 body {
     margin: 0;
-    background: var(--bg-main);
+    background: var(--main-bg);
     color: var(--text-color);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     transition: background 0.2s, color 0.2s;
@@ -41,7 +40,7 @@ body.dark {
     /* --accent-color: #ff00aa; */
     --bg-darker: #08080d;
     --bg-card: rgba(30, 30, 40, 0.6);
-    --bg-main: #181a20;
+    --main-bg: #181a20;
     --bg-card: #23272f;
     --text-color: #f3f4f6;
     background-color: var(--dark-bg);

@@ -13,44 +13,174 @@
     <link rel="icon" href="/assets/images/logo.png" type="image/png">
     <style>
         :root {
+            --background-start: #010203;
+            --background-end: #0a0b1a;
+            --accent-primary: #33a5f5;
+            --accent-secondary: #9f75ff;
+            --card-border: rgba(138, 92, 245, 0.2);
+            --glow-1: #6a00ff;
+            --glow-2: #00d1f5;
             --font-main: 'Inter', -apple-system, sans-serif;
             --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
-            /* color-scheme: dark; */
+            color-scheme: dark;
         }
+
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0; padding: 0;
         }
-        body {
-            --text-primary: #222;
-            --text-secondary: #555;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --card-border: rgba(59, 130, 246, 0.2);
-            --glow-1: #3b82f6;
-            --glow-2: #8b5cf6;
-            font-family: var(--font-main);
-            background-color: var(--background-start);
-            background-image: radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 30%),
-                              radial-gradient(circle at 0% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 35%);
-            background-attachment: fixed;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+
+        html { scroll-behavior: smooth; }
+
+
+        .container {
+            width: 90%;
+            max-width: 1240px;
+            margin: 0 auto;
         }
-        body.dark {
-            --background-start: #010203;
-            --background-end: #0a0b1a;
-            --text-primary: #f0f4ff;
-            --text-secondary: #a0a8c8;
-            --accent-primary: #33a5f5;
-            --accent-secondary: #9f75ff;
-            --card-bg: rgba(23, 24, 45, 0.4);
-            --card-border: rgba(138, 92, 245, 0.2);
-            --glow-1: #6a00ff;
-            --glow-2: #00d1f5;
+
+        section { 
+            padding: clamp(5rem, 15vh, 10rem) 0; 
+            position: relative; 
+        }
+        
+        ::selection {
+            background-color: var(--accent-primary);
+            color: var(--background-end);
+        }
+
+        .background-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(138, 92, 245, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(138, 92, 245, 0.1) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.3;
+            z-index: -10;
+            pointer-events: none;
+            animation: bg-pan 120s linear infinite;
+        }
+        @keyframes bg-pan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .fixed-donate-btn {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            text-decoration: none;
+            color: var(--text-color);
+            background-color: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid var(--card-border);
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transform: translateY(-150%);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .fixed-donate-btn.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .fixed-donate-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent-secondary);
+            box-shadow: 0 5px 20px rgba(159, 117, 255, 0.4);
+        }
+        .fixed-donate-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .fixed-donate-btn:hover i {
+            transform: rotate(-15deg) scale(1.1);
+        }
+        
+        .hero {
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            min-height: 100svh;
+            padding: 2rem 0;
+        }
+
+        .hero-hidden {
+            display: none;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw + 1rem, 9rem);
+            font-weight: 900; line-height: 1; letter-spacing: -0.05em;
+            margin-bottom: 2rem; position: relative;
+        }
+
+        .char-parent {
+            display: inline-block;
+            overflow: hidden;
+        }
+        
+        .hero h1 .char {
+            display: inline-block;
+            transform: translateY(110%);
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-secondary) 10%, var(--accent-primary) 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero .subtitle {
+            max-width: 45ch;
+            font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--text-secondary);
+            margin-bottom: 3rem; text-wrap: balance; line-height: 1.8;
+            opacity: 0;
+        }
+        
+        .hero-buttons {  
+            display: flex; flex-wrap: wrap;  
+            justify-content: center;  
+            gap: 1rem;  
+            opacity: 0;  
+        }
+        
+        .fancy-btn {
+            position: relative; text-decoration: none;
+            color: var(--text-color); background-color: rgba(22,23,45, 0.8);
+            padding: 0.9rem 2rem;
+            border-radius: 50px; border: 1px solid var(--card-border);
+            font-size: 1rem; font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            backdrop-filter: blur(8px);
+        }
+        .fancy-btn i { margin-right: 0.5rem; vertical-align: middle; }
+        .fancy-btn.primary {
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            border: none;
+            padding: calc(0.9rem + 1px) calc(2rem + 1px);
+            box-shadow: 0 10px 30px -10px rgba(159, 117, 255, 0.5);
+        }
+
+        .fancy-btn:hover {  
+            transform: translateY(-5px) scale(1.05);
+            border-color: rgba(138, 92, 245, 0.6);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .fancy-btn.primary:hover {
+            box-shadow: 0 15px 40px -10px rgba(159, 117, 255, 0.7);
+        }
+        
+        .video-demo {
+            padding: clamp(3rem, 10vh, 5rem) 0;
         }
         .video-container {
             aspect-ratio: 16 / 9;
@@ -61,27 +191,39 @@
             background-color: #000;
         }
         .video-container iframe { width: 100%; height: 100%; border: 0; }
-        .video-note {text-align: center; color: var(--text-secondary); font-style: italic; margin-top:1.5rem;}
-        .video-demo {
-            padding: clamp(3rem, 10vh, 5rem) 0;
+        .video-note {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top:1.5rem;
         }
+        
+        .section-heading { text-align: center; margin-bottom: 5rem; }
         .section-heading .pre-title {
             color: var(--accent-primary); font-weight: 700;
             text-transform: uppercase; letter-spacing: 2px;
             font-size: 0.9rem; margin-bottom: 0.75rem;
         }
-        .section-heading { text-align: center; margin-bottom: 5rem; }
         .section-heading h2 {
             font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
         }
+
+        .features-stack { 
+            display: grid;
+            gap: 2rem;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
         .feature-card {
             background: var(--card-bg); border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border-radius: 24px; padding: clamp(1.5rem, 5vw, 3rem);
             backdrop-filter: blur(20px) saturate(180%);
             position: sticky; 
             top: 120px;
             transform-origin: center top;
         }
+        
         .feature-card .content {
             display: flex; gap: 2rem; align-items: center; flex-wrap: nowrap;
         }
@@ -96,6 +238,95 @@
         }
         .feature-card h3 { font-size: 1.75rem; font-weight: 700; }
         .feature-card p { font-size: 1.1rem; color: var(--text-secondary); max-width: 55ch; line-height: 1.8; margin-top: 0.75rem;}
+        
+        .install-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: clamp(2rem, 5vw, 4rem);
+        }
+        .tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--card-border); margin-bottom: 2rem; position: relative; }
+        .tab-button {
+            padding: 1rem 1.25rem; font-size: 1rem; font-weight: 700; cursor: pointer;
+            border: 0; background-color: transparent; color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        .tab-indicator {
+            position: absolute; bottom: -1px; left: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, var(--accent-secondary), var(--accent-primary));
+            border-radius: 2px; 
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .tab-button.active { color: var(--text-color); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: content-fade-in 0.6s ease; }
+        @keyframes content-fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .code-block {
+            background: linear-gradient(135deg, rgba(6, 8, 20, 0.9) 0%, rgba(3, 3, 5, 0.9) 100%);
+            padding: 1.5rem; border-radius: 12px; overflow-x: auto;
+            border: 1px solid var(--card-border); margin: 1rem 0;
+            position: relative; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        code { font-family: var(--font-mono); font-size: 0.9em; line-height: 1.8; white-space: pre; }
+        
+        .copy-btn {
+            position: absolute; top: 1rem; right: 1rem;
+            background-color: rgba(43,45,78,0.7);
+            border: 1px solid rgba(138, 92, 245, 0.3);
+            color: var(--text-secondary); backdrop-filter: blur(5px);
+            padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 500;
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .copy-btn:hover { background-color: var(--accent-primary); color: #000; }
+        
+        .instruction-step { padding: 2rem 0; }
+        .instruction-step:not(:last-child) { border-bottom: 1px solid var(--card-border); }
+        .instruction-step h3 { font-size: 1.5rem; font-weight:700; margin-bottom: 1.5rem; }
+        .instruction-step p { color: var(--text-secondary); margin-top: 1.5rem; max-width: 60ch; }
+        
+        .community-cta { padding: 8rem 0; text-align: center; }
+        .community-cta .hero-buttons {
+            gap: 1.5rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 5rem 1rem 3rem 1rem;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem; text-align: left; padding-bottom: 5rem;
+        }
+        .footer-col h4 { font-weight: 700; font-size: 1rem; text-transform: uppercase; color: var(--accent-primary); margin-bottom: 1.5rem;letter-spacing:1px; }
+        .footer-col ul { list-style-type: none; }
+        .footer-col a {
+            display:block; text-decoration: none; color: var(--text-secondary);
+            padding: 0.5rem 0; transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .footer-col a:hover { color: var(--text-color); transform: translateX(5px); }
+        
+        .footer-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 2rem; border-top: 1px solid var(--card-border); padding-top: 3rem; text-align: center;
+        }
+        .footer-credits p { color: var(--text-secondary); font-size: 0.9rem;}
+        .footer-socials { display: flex; gap: 1.5rem; }
+        .footer-socials a { color: var(--text-secondary); font-size: 1.5rem; transition: all 0.3s ease; }
+        .footer-socials a:hover { color: var(--text-color); transform: translateY(-3px); }
+
+        .anim-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .anim-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         @media (max-width: 768px) {
             .feature-card .content {
                 flex-direction: column;
@@ -105,10 +336,21 @@
             .feature-card .icon {
                 text-align: left;
             }
+            .fixed-donate-btn {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="hero">
+        <h1><span class="char-parent"><span class="char">M</span></span><span class="char-parent"><span class="char">I</span></span><span class="char-parent"><span class="char">N</span></span><span class="char-parent"><span class="char">V</span></span><span class="char-parent"><span class="char">S</span></span><span class="char-parent"><span class="char">T</span></span><span class="char-parent"><span class="highlight char">-</span></span><span class="char-parent"><span class="highlight char">U</span></span><span class="char-parent"></span><span class="char-parent"><span class="highlight char">I</span></span></h1>
+        <p class="subtitle">Một "vũ trụ" Service & Software thế hệ mới, gói gọn ngay trong trình duyệt của bạn, mang đến một trải nghiệm nhanh, nhẹ, và vô cùng mạnh mẽ.</p>
+        <div class="hero-buttons">
+            <a href="#home" class="fancy-btn primary"> <i class="ri-rocket-fill"></i>Bắt đầu</a>
+            <a href="https://github.com/netrotion" target="_blank" rel="noopener noreferrer" class="fancy-btn" style="color:#fff"><i class="ri-github-fill"></i>About me</a>
+        </div>
+    </header>
     <div id="cookieConsent" style="display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(34,34,59,0.13);padding:18px 28px;z-index:99999;max-width:95vw;">
         <span style="color:#222;font-size:1.05rem;">Trang web này sử dụng cookies để nâng cao trải nghiệm người dùng.</span>
         <button id="acceptCookies" style="margin-left:18px;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-weight:600;cursor:pointer;">Đồng ý</button>
@@ -162,36 +404,6 @@
     
     <main>
         <div class="grid-pattern"></div>
-        <section id="login" class="active">
-            <h2><svg fill="#6366f1" width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="sign-in-alt-2" class="icon glyph"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M20.49,3.84l-6-1.5A2,2,0,0,0,12,4.28V5H10a1,1,0,0,0,0,2h2V17H10a1,1,0,0,0,0,2h2v.72a2,2,0,0,0,.77,1.57,2,2,0,0,0,1.23.43,2.12,2.12,0,0,0,.49-.06l6-1.5A2,2,0,0,0,22,18.22V5.78A2,2,0,0,0,20.49,3.84Z"></path><path d="M9.71,12.71a1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76,1.15,1.15,0,0,0-.21-.33h0l-3-3A1,1,0,0,0,5.29,9.71L6.59,11H2a1,1,0,0,0,0,2H6.59l-1.3,1.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l3-3Z"></path></g></svg> Sign In</h2>
-            <form id="loginForm">
-                <label for="loginUsername">Username:</label>
-                <input type="text" id="loginUsername" required>
-                <label for="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" required>
-                <button class="g-recaptcha" 
-                    data-sitekey="6LdcnnIrAAAAAENTN0clJI8l-p16sID6K7mx1NcN"
-                    data-callback="submitLogin"
-                    type="submit">Submit</button>
-            </form>
-        </section>
-
-        <section id="register">
-            <h2><svg height="40" width="40" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#6366f1"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#6366f1;} </style> <g> <path class="st0" d="M259.993,460.958c14.498,14.498,75.487-23.002,89.985-37.492l59.598-59.606l-52.494-52.485l-59.597,59.597 C282.996,385.462,245.504,446.46,259.993,460.958z"></path> <path class="st0" d="M493.251,227.7c-14.498-14.49-37.996-14.49-52.485,0l-71.68,71.678l52.494,52.486l71.671-71.68 C507.741,265.695,507.741,242.198,493.251,227.7z M399.586,308.882l-9.008-8.999l50.18-50.18l8.991,8.99L399.586,308.882z"></path> <path class="st0" d="M374.714,448.193c-14.071,14.055-67.572,51.008-104.791,51.008c-0.008,0,0,0-0.008,0 c-17.47,0-28.484-7.351-34.648-13.516c-44.758-44.775,36.604-138.56,37.492-139.439l4.123-4.124 c-3.944-4.354-5.644-10.348-5.644-22.302c0-8.836,0-25.256,0-40.403c11.364-12.619,15.497-11.048,25.103-60.596 c19.433,0,18.178-25.248,27.34-47.644c7.479-18.238,1.212-25.632-5.072-28.655c5.14-66.463,5.14-112.236-70.296-126.435 c-27.349-23.438-68.606-15.48-88.158-11.57c-19.536,3.911-37.159,0-37.159,0l3.355,31.49 C97.74,70.339,112.05,116.112,107.44,142.923c-5.994,3.27-11.407,10.809-4.269,28.254c9.17,22.396,7.906,47.644,27.339,47.644 c9.614,49.548,13.747,47.976,25.111,60.596c0,15.148,0,31.567,0,40.403c0,25.248-8.58,25.684-28.134,36.612 c-47.14,26.35-108.572,41.659-119.571,124.01C5.902,495.504,92.378,511.948,213.434,512 c121.04-0.052,207.524-16.496,205.518-31.558c-3.168-23.702-10.648-41.547-20.68-55.806L374.714,448.193z"></path> </g> </g></svg>Sign Up</h2>
-            <form id="registerForm">
-                <label for="registerUsername">Username:</label>
-                <input type="text" id="registerUsername" required>
-                <label for="registerPassword">Password:</label>
-                <input type="password" id="registerPassword" required>
-                <label for="registerRepeatPassword">Repeat Password:</label>
-            <input type="password" id="registerRepeatPassword" required>
-                <button class="g-recaptcha" 
-                    data-sitekey="6LdcnnIrAAAAAENTN0clJI8l-p16sID6K7mx1NcN"
-                    data-callback="submitRegister"
-                    type="submit">Submit</button>
-            </form>
-        </section>
-
         <section id="home">
             <h2><svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.5098 5.01L14.5498 3.05C13.1498 1.65 10.8498 1.65 9.44977 3.05L7.48977 5.01C7.09977 5.4 7.09977 6.04 7.48977 6.43L11.2998 10.24C11.6898 10.63 12.3198 10.63 12.7098 10.24L16.5198 6.43C16.8998 6.04 16.8998 5.4 16.5098 5.01Z" fill="#6366f1"></path> <path d="M5.01 7.49172L3.05 9.45172C1.65 10.8517 1.65 13.1517 3.05 14.5517L5.01 16.5117C5.4 16.9017 6.03 16.9017 6.42 16.5117L10.23 12.7017C10.62 12.3117 10.62 11.6817 10.23 11.2917L6.43 7.49172C6.04 7.10172 5.4 7.10172 5.01 7.49172Z" fill="#6366f1"></path> <path d="M20.9491 9.45172L18.9891 7.49172C18.5991 7.10172 17.9691 7.10172 17.5791 7.49172L13.7691 11.3017C13.3791 11.6917 13.3791 12.3217 13.7691 12.7117L17.5791 16.5217C17.9691 16.9117 18.5991 16.9117 18.9891 16.5217L20.9491 14.5617C22.3491 13.1517 22.3491 10.8517 20.9491 9.45172Z" fill="#6366f1"></path> <path d="M7.48907 18.9891L9.44907 20.9491C10.8491 22.3491 13.1491 22.3491 14.5491 20.9491L16.5091 18.9891C16.8991 18.5991 16.8991 17.9691 16.5091 17.5791L12.6991 13.7691C12.3091 13.3791 11.6791 13.3791 11.2891 13.7691L7.47907 17.5791C7.09907 17.9591 7.09907 18.5991 7.48907 18.9891Z" fill="#6366f1"></path> </g></svg> INTRODUTION</h2>
             <div class="section-heading">
@@ -241,7 +453,7 @@
                     <p class="pre-title">stay for a while</p>
                 </div>
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/eyArDrXnvcw?si=QwFK4dqd5dwIl4AE?&mute=1&loop=1&controls=0&showinfo=0&autoplay=0" title="MINVST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/?si=QwFK4dqd5dwIl4AE?&mute=1&loop=1&controls=0&showinfo=0&autoplay=0" title="MINVST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
                 <p class="video-note">Theo dõi kênh để không bỏ lỡ bản cập nhật nào</p>
             </div>
@@ -254,6 +466,37 @@
                 <h2>Tham Gia Cộng Đồng</h2>
             </div>
         </section>
+
+        <section id="login" class="active">
+            <h2><svg fill="#6366f1" width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="sign-in-alt-2" class="icon glyph"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M20.49,3.84l-6-1.5A2,2,0,0,0,12,4.28V5H10a1,1,0,0,0,0,2h2V17H10a1,1,0,0,0,0,2h2v.72a2,2,0,0,0,.77,1.57,2,2,0,0,0,1.23.43,2.12,2.12,0,0,0,.49-.06l6-1.5A2,2,0,0,0,22,18.22V5.78A2,2,0,0,0,20.49,3.84Z"></path><path d="M9.71,12.71a1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76,1.15,1.15,0,0,0-.21-.33h0l-3-3A1,1,0,0,0,5.29,9.71L6.59,11H2a1,1,0,0,0,0,2H6.59l-1.3,1.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l3-3Z"></path></g></svg> Sign In</h2>
+            <form id="loginForm">
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" required>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" required>
+                <button class="g-recaptcha" 
+                    data-sitekey="6LdcnnIrAAAAAENTN0clJI8l-p16sID6K7mx1NcN"
+                    data-callback="submitLogin"
+                    type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section id="register">
+            <h2><svg height="40" width="40" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#6366f1"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#6366f1;} </style> <g> <path class="st0" d="M259.993,460.958c14.498,14.498,75.487-23.002,89.985-37.492l59.598-59.606l-52.494-52.485l-59.597,59.597 C282.996,385.462,245.504,446.46,259.993,460.958z"></path> <path class="st0" d="M493.251,227.7c-14.498-14.49-37.996-14.49-52.485,0l-71.68,71.678l52.494,52.486l71.671-71.68 C507.741,265.695,507.741,242.198,493.251,227.7z M399.586,308.882l-9.008-8.999l50.18-50.18l8.991,8.99L399.586,308.882z"></path> <path class="st0" d="M374.714,448.193c-14.071,14.055-67.572,51.008-104.791,51.008c-0.008,0,0,0-0.008,0 c-17.47,0-28.484-7.351-34.648-13.516c-44.758-44.775,36.604-138.56,37.492-139.439l4.123-4.124 c-3.944-4.354-5.644-10.348-5.644-22.302c0-8.836,0-25.256,0-40.403c11.364-12.619,15.497-11.048,25.103-60.596 c19.433,0,18.178-25.248,27.34-47.644c7.479-18.238,1.212-25.632-5.072-28.655c5.14-66.463,5.14-112.236-70.296-126.435 c-27.349-23.438-68.606-15.48-88.158-11.57c-19.536,3.911-37.159,0-37.159,0l3.355,31.49 C97.74,70.339,112.05,116.112,107.44,142.923c-5.994,3.27-11.407,10.809-4.269,28.254c9.17,22.396,7.906,47.644,27.339,47.644 c9.614,49.548,13.747,47.976,25.111,60.596c0,15.148,0,31.567,0,40.403c0,25.248-8.58,25.684-28.134,36.612 c-47.14,26.35-108.572,41.659-119.571,124.01C5.902,495.504,92.378,511.948,213.434,512 c121.04-0.052,207.524-16.496,205.518-31.558c-3.168-23.702-10.648-41.547-20.68-55.806L374.714,448.193z"></path> </g> </g></svg>Sign Up</h2>
+            <form id="registerForm">
+                <label for="registerUsername">Username:</label>
+                <input type="text" id="registerUsername" required>
+                <label for="registerPassword">Password:</label>
+                <input type="password" id="registerPassword" required>
+                <label for="registerRepeatPassword">Repeat Password:</label>
+            <input type="password" id="registerRepeatPassword" required>
+                <button class="g-recaptcha" 
+                    data-sitekey="6LdcnnIrAAAAAENTN0clJI8l-p16sID6K7mx1NcN"
+                    data-callback="submitRegister"
+                    type="submit">Submit</button>
+            </form>
+        </section>
+
         <section id="apidocument">
             <h2><svg fill="#6366f1" width="40" height="40" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M917.7 148.8l-42.4-42.4c-1.6-1.6-3.6-2.3-5.7-2.3s-4.1.8-5.7 2.3l-76.1 76.1a199.27 199.27 0 0 0-112.1-34.3c-51.2 0-102.4 19.5-141.5 58.6L432.3 308.7a8.03 8.03 0 0 0 0 11.3L704 591.7c1.6 1.6 3.6 2.3 5.7 2.3 2 0 4.1-.8 5.7-2.3l101.9-101.9c68.9-69 77-175.7 24.3-253.5l76.1-76.1c3.1-3.2 3.1-8.3 0-11.4zM578.9 546.7a8.03 8.03 0 0 0-11.3 0L501 613.3 410.7 523l66.7-66.7c3.1-3.1 3.1-8.2 0-11.3L441 408.6a8.03 8.03 0 0 0-11.3 0L363 475.3l-43-43a7.85 7.85 0 0 0-5.7-2.3c-2 0-4.1.8-5.7 2.3L206.8 534.2c-68.9 68.9-77 175.7-24.3 253.5l-76.1 76.1a8.03 8.03 0 0 0 0 11.3l42.4 42.4c1.6 1.6 3.6 2.3 5.7 2.3s4.1-.8 5.7-2.3l76.1-76.1c33.7 22.9 72.9 34.3 112.1 34.3 51.2 0 102.4-19.5 141.5-58.6l101.9-101.9c3.1-3.1 3.1-8.2 0-11.3l-43-43 66.7-66.7c3.1-3.1 3.1-8.2 0-11.3l-36.6-36.2z"></path> </g></svg>API Document</h2>
             <div id="apiTags" style="margin:0 0 18px 0;display:flex;flex-wrap:wrap;gap:10px;"></div>
@@ -352,23 +595,50 @@
             <div id="pricingDynamic"></div>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2023 MINVST. All rights reserved.</p>
-    </footer>
-<script src="/assets/js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<script>
-const featureStackingEffect = () => {
-    const featureCards = document.querySelectorAll('.feature-card');
-    if(featureCards.length === 0) return;
+    <footer class="anim-reveal">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>MINVST</h4>
+                    <p style="color:var(--text-secondary); line-height:1.7; font-size:0.95rem;">Decriptions.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên Kết Nhanh</h4>
+                    <ul>
+                        <li><a href="https://www.facebook.com/hngl2808">Liên hệ</a></li>
+                        <li><a href="#install">Cài đặt</a></li>
+                        <li><a href="https://github.com/netrotion/minvst/issues" target="_blank">Báo lỗi</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-col">
+                    <h4>Mã Nguồn</h4>
+                    <ul>
+                        <li><a href="https://github.com/netrotion/minvst" target="_blank">Repository</a></li>
+                        <li><a href="https://github.com/netrotion/minvst/pulls" target="_blank">Đóng góp</a></li>
+                        <li><a href="https://github.com/netrotion/minvst/issues/blob/main/LICENSE" target="_blank">Giấy phép</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ủng Hộ</h4>
+                    <ul>
+                        <li><a href="https://buymeacoffee.com/minvst" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></li>
+                    </ul>
+                </div>
+            </div>
 
-    anime({
-        targets: featureCards,
-        translateY: (el, i) => i * -15,
-        scale: (el, i) => 1 - (featureCards.length - 1 - i) * 0.05,
-    });
-};
-featureStackingEffect();
-</script>
+            <div class="footer-bottom">
+                 <div class="footer-credits">
+                     <p>© 2025-2026 MINVST.</p>
+                 </div>
+                 <div class="footer-socials">
+                     <a href="https://github.com/netrotion" target="_blank" title="GitHub"><i class="ri-github-fill"></i></a>
+                     <a href="mailto:hunghunghungle@gmail.com" target="_blank" title="Email"><i class="ri-mail-star-line"></i></a>
+                 </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </body>
 </html>
